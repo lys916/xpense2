@@ -179,6 +179,8 @@ class App extends React.Component {
               {pathname === 'create-transaction' ? 'Create Transaction' : null }
               {pathname === 'volunteers' ? 'Volunteers' : null }
               {pathname === 'settings' ? 'Settings' : null }
+              {pathname === 'event' ? 'Event' : null }
+              {pathname === 'transaction' ? 'transaction' : null }
             </Typography>
 
           </Toolbar>
