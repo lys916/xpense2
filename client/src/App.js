@@ -20,6 +20,8 @@ import Events from './Events';
 import Transactions from './Transactions';
 import CreateEvent from './CreateEvent';
 import CreateTransaction from './CreateTransaction';
+import Volunteers from './Volunteers';
+import Settings from './Settings';
 
 const drawerWidth = 240;
 
@@ -94,11 +96,11 @@ class App extends React.Component {
             <ListItemText primary='Transactions' />
           </ListItem>
 
-          <ListItem button onClick={()=>{this.changeContent('users')}}>
+          <ListItem button onClick={()=>{this.changeContent('volunteers')}}>
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
-            <ListItemText primary='Users' />
+            <ListItemText primary='Volunteers' />
           </ListItem>
 
           <ListItem button onClick={()=>{this.changeContent('settings')}}>
@@ -143,7 +145,7 @@ class App extends React.Component {
             </IconButton>
             : null}
 
-            { pathname === '/events' || pathname === '/transactions' ?  
+            { pathname === '/events' || pathname === '/transactions' || pathname === '/volunteers' || pathname === '/settings'?  
               <IconButton
               color="inherit"
               aria-label="Open drawer"
@@ -162,7 +164,10 @@ class App extends React.Component {
               {pathname === '/transactions' ? 'Transactions' : null }
               {pathname === '/create-event' ? 'Create Event' : null }
               {pathname === '/create-transaction' ? 'Create Transaction' : null }
+              {pathname === '/volunteers' ? 'Volunteers' : null }
+              {pathname === '/settings' ? 'Settings' : null }
             </Typography>
+
           </Toolbar>
         </AppBar>
 
@@ -205,6 +210,8 @@ class App extends React.Component {
           {pathname === '/transactions' ? <Transactions history={this.props.history} /> : null}
           {pathname === '/create-event' ? <CreateEvent /> : null}
           {pathname === '/create-transaction' ? <CreateTransaction /> : null}
+          {pathname === '/volunteers' ? <Volunteers /> : null}
+          {pathname === '/settings' ? <Settings /> : null}
         </main>
 
       </div>
