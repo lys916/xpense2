@@ -21,6 +21,16 @@ eventRouter.post('/create', function(req, res){
     });
 });
 
+eventRouter.post('/delete', function(req, res){
+    const {id} = req.body;
+
+    console.log('id', id);
+	Event.findOneAndRemove({_id: id}).then(deleted => {
+    console.log('deleted', deleted);
+		res.json(deleted);
+	});
+});
+
 // customFoodRouter.post('/updateFood', function(req, res){
 //     console.log('updating custom food', req.body);
 // 	CustomFood.findByIdAndUpdate(req.body._id, req.body, {new: true}).then(updated => {

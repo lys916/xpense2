@@ -17,6 +17,23 @@ export const createEvent = (event, history) => {
 	}
 }
 
+export const deleteEvent = (id, history) => {
+	console.log('deleteing event', id);
+	return (dispatch) => {
+		//   dispatch({
+		// 	  type: 'CREATING_CUSTOM_FOOD'
+		//   });
+		axios.post(`/event/delete`, {id}).then(res => {
+			console.log('deleted', res.data);
+			history.push('/events');
+			dispatch({
+				type: 'EVENT_DELETED',
+				payload: res.data
+			});
+		});
+	}
+}
+
 
 export const getEvents = () => {
   	return (dispatch) => {

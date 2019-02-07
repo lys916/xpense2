@@ -7,6 +7,12 @@ const eventReducer = (state = [], action) => {
 
 		case 'EVENT_CREATED':
            return [action.payload, ...state];
+
+		case 'EVENT_DELETED':
+			const filterDeleted = state.filter(event=>{
+				return event._id !== action.payload._id;
+			});
+           return filterDeleted;
 			
 		// case "REMOVE_FROM_CART":
 		// 	const removeItem = state.filter(item=>{

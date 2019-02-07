@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import './App.css';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -77,7 +77,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes, theme, history, location } = this.props;
     const pathStr = this.props.location.pathname;
     if(pathStr === '/'){
       this.props.history.push('/events');
@@ -138,7 +138,7 @@ class App extends React.Component {
               <IconButton
               color="inherit"
               aria-label="Open drawer"
-              onClick={()=>{this.props.history.push('/events')}}
+              onClick={()=>{history.push('/events')}}
               className={classes.menuButton}
             >
               <ArrowBack/>
@@ -146,14 +146,14 @@ class App extends React.Component {
             : null}
 
               { pathname === 'create-transaction' || pathname === 'transaction' ?  
-              <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={()=>{this.props.history.push('/transactions')}}
-              className={classes.menuButton}
-            >
-              <ArrowBack/>
-            </IconButton>
+                <IconButton
+                color="inherit"
+                aria-label="Open drawer"
+                onClick={()=>{history.push('/transactions')}}
+                className={classes.menuButton}
+              >
+                <ArrowBack/>
+              </IconButton>
             : null}
 
             { pathname === 'events' || pathname === 'transactions' || pathname === 'volunteers' || pathname === 'settings'?  
@@ -183,7 +183,10 @@ class App extends React.Component {
               {pathname === 'transaction' ? 'transaction' : null }
             </Typography>
 
+                  
+
           </Toolbar>
+          
         </AppBar>
 
         {/* SIDE DRAWER */}
@@ -221,14 +224,14 @@ class App extends React.Component {
         {/* MAIN CONTENT */}
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {pathname === 'events' ? <Events history={this.props.history} /> : null}
-          {pathname === 'transactions' ? <Transactions history={this.props.history} /> : null}
-          {pathname === 'create-event' ? <CreateEvent history={this.props.history}/> : null}
+          {pathname === 'events' ? <Events history={history} /> : null}
+          {pathname === 'transactions' ? <Transactions history={history} /> : null}
+          {pathname === 'create-event' ? <CreateEvent history={history}/> : null}
           {pathname === 'create-transaction' ? <CreateTransaction /> : null}
           {pathname === 'volunteers' ? <Volunteers /> : null}
           {pathname === 'settings' ? <Settings /> : null}
-          {pathname === 'event' ? <ViewEvent location={this.props.location}/> : null}
-          {pathname === 'transaction' ? <ViewTransaction location={this.props.location}/> : null}
+          {pathname === 'event' ? <ViewEvent history={history} location={location}/> : null}
+          {pathname === 'transaction' ? <ViewTransaction location={location}/> : null}
         </main>
 
       </div>
