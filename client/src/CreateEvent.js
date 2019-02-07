@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
 
 class CreateEvent extends Component {
@@ -15,6 +16,16 @@ class CreateEvent extends Component {
   handleChange = name => event => {
     this.setState({[name]: event.target.value });
   };
+
+  createEvent = ()=>{
+    const { name, budget, coord, desc } = this.state;
+    console.log('creating event');
+    axios.post('/user', {name, budget, coord, desc}).then(res=>{
+      this.setState({
+        users: res.data
+      })
+    });
+  }
 
   render() {
     const {classes} = this.props;
@@ -66,7 +77,7 @@ class CreateEvent extends Component {
           
         </form>
 
-        <Button variant="contained" color="primary" className={classes.button}>
+        <Button variant="contained" color="primary" className={classes.button}onClick={this.createEvent} >
           Create Event
         </Button>
         

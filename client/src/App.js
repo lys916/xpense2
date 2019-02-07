@@ -77,6 +77,10 @@ class App extends React.Component {
   render() {
     const { classes, theme } = this.props;
     const pathStr = this.props.location.pathname;
+    if(pathStr === '/'){
+      this.props.history.push('/events');
+      return null;
+    }
     const pathArray = pathStr.split('/');
     const pathname = pathArray[1];
     const pathIndex = pathArray[2];

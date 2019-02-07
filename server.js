@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 // const userRouter = require('./user/UserRoutes');
 // const transactionRouter = require('./transaction/transactionRoutes');
-// const eventRouter = require('./event/eventRoutes');
+const eventRouter = require('./Event/EventRoutes');
 
 const server = express();
 
@@ -24,7 +24,7 @@ mongoose
 
 // server.use('/user', userRouter);
 // server.use('/transaction', transactionRouter);
-// server.use('/event', eventRouter);
+server.use('/event', eventRouter);
 
 // serve static assets if we're in production
 if(process.env.NODE_ENV === 'production'){
