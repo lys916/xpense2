@@ -12,6 +12,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -72,7 +73,6 @@ class App extends React.Component {
   render() {
     const { classes, theme } = this.props;
     const { pathname } = this.props.location;
-
     // drawer in jsx
     const drawer = (
       <div>
@@ -116,19 +116,52 @@ class App extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
+
         {/* HEADER */}
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
-            <IconButton
+
+            { pathname === '/create-event' ?  
+              <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={()=>{this.props.history.push('/events')}}
+              className={classes.menuButton}
+            >
+              <ArrowBack/>
+            </IconButton>
+            : null}
+
+              { pathname === '/create-transaction' ?  
+              <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={()=>{this.props.history.push('/transactions')}}
+              className={classes.menuButton}
+            >
+              <ArrowBack/>
+            </IconButton>
+            : null}
+
+            { pathname === '/events' || pathname === '/transactions' ?  
+              <IconButton
               color="inherit"
               aria-label="Open drawer"
               onClick={this.handleDrawerToggle}
               className={classes.menuButton}
             >
-              <MenuIcon />
+              <MenuIcon/>
             </IconButton>
+            : null}
+
+           
+
+          
             <Typography variant="h6" color="inherit" noWrap>
-              Expen Manager
+              {pathname === '/events' ? 'Events' : null }
+              {pathname === '/transactions' ? 'Transactions' : null }
+              {pathname === '/create-event' ? 'Create Event' : null }
+              {pathname === '/create-transaction' ? 'Create Transaction' : null }
             </Typography>
           </Toolbar>
         </AppBar>

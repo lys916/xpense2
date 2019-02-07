@@ -21,11 +21,6 @@ class Events extends Component {
     const { classes } = this.props;
     return (
       <div className="Event">
-      <div>
-        <Typography gutterBottom variant="h5" component="h2">
-            All Events
-        </Typography>
-      </div>
       {events.map(event=>{
         return(
           <Card className={classes.card}>
