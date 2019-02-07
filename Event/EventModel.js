@@ -6,6 +6,7 @@ const EventSchema = new mongoose.Schema({
 	coord: {type: String, required: true},
 	budget: {type: String, required: true},
 	desc: {type: String, required: true},
+	dateCreated: {type: Date, default: Date.now()}
 });
 
 const EventModel = mongoose.model('Event', EventSchema);

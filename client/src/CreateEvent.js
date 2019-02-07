@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import { connect } from 'react-redux';
 import axios from 'axios';
+import { createEvent } from './actions/eventActions';
+
 
 
 class CreateEvent extends Component {
@@ -18,13 +21,8 @@ class CreateEvent extends Component {
   };
 
   createEvent = ()=>{
-    const { name, budget, coord, desc } = this.state;
-    console.log('creating event');
-    axios.post('/user', {name, budget, coord, desc}).then(res=>{
-      this.setState({
-        users: res.data
-      })
-    });
+    const {name, budget, coord, desc} = this.state;
+    this.props.createEvent({name, budget, coord, desc}, this.props.history);
   }
 
   render() {
@@ -106,7 +104,10 @@ const styles = theme => ({
   },
 });
 
+const mapStateToProps = (state) => {
+	return {
+  }
+}
 
+export default connect(mapStateToProps, {  createEvent })(withStyles(styles)(CreateEvent));
 
-
-export default withStyles(styles)(CreateEvent);

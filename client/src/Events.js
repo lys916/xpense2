@@ -1,3 +1,4 @@
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -6,22 +7,23 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { getEvents } from './actions/eventActions';
 
 // evetns array should be coming from database
-const events = [
-  {name: 'Event 1', desc: 'Event 1 description'},
-  {name: 'Event 2', desc: 'Event 2 description'},
-  {name: 'Event 3', desc: 'Event 3 description'},
-  {name: 'Event 4', desc: 'Event 4 description'},
-  {name: 'Event 5', desc: 'Event 5 description'}
-];
 
 class Events extends Component {
+
+  componentDidMount(){
+    if(this.props.events.length < 1){
+      this.props.getEvents();
+    }
+  }
+
   render() {
     const { classes } = this.props;
     return (
       <div className="Event">
-      {events.map((event, index)=>{
+      {this.props.events.map((event, index)=>{
         return(
           <Card className={classes.card} onClick={()=>{this.props.history.push(`/event/${index}`)}}>
             <CardActionArea>
@@ -67,4 +69,10 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(Events);
+const mapStateToProps = (state) => {
+	return {
+    events: state.events
+  }
+}
+
+export default connect(mapStateToProps, {  getEvents })(withStyles(styles)(Events));

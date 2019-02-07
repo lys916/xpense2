@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -219,7 +221,7 @@ class App extends React.Component {
           <div className={classes.toolbar} />
           {pathname === 'events' ? <Events history={this.props.history} /> : null}
           {pathname === 'transactions' ? <Transactions history={this.props.history} /> : null}
-          {pathname === 'create-event' ? <CreateEvent /> : null}
+          {pathname === 'create-event' ? <CreateEvent history={this.props.history}/> : null}
           {pathname === 'create-transaction' ? <CreateTransaction /> : null}
           {pathname === 'volunteers' ? <Volunteers /> : null}
           {pathname === 'settings' ? <Settings /> : null}
@@ -240,4 +242,12 @@ App.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(App);
+const mapStateToProps = (state) => {
+	return {
+    events: state.events
+  }
+}
+
+// export default withStyles(styles, { withTheme: true })(App);
+
+export default connect(mapStateToProps, {  })(withStyles(styles, { withTheme: true })(App));

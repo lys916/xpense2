@@ -8,15 +8,16 @@ const Event = require('./EventModel.js');
 // const CustomFood = require('./CustomFoodModel');
 
 eventRouter.get('/', function(req, res){
-  Event.find({}).then(game=>{
-    console.log('get game', game.length);
-    res.json(game[0]);
+  Event.find({}).sort('dateCreated').then(events=>{
+    res.json(events);
   });
 });
 
 eventRouter.post('/create', function(req, res){
-    console.log(req.body);return;
-    Event.create(req.body).then(res=>{
+  console.log(req.body);
+    Event.create(req.body).then(saved=>{
+      console.log('saved', saved);
+      res.send(saved);
     });
 });
 
