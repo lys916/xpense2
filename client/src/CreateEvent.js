@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-
+import Button from '@material-ui/core/Button';
 
 
 class CreateEvent extends Component {
   state = {
-    name: ''
+    name: '',
+    budget: '',
+    coord: '',
+    desc: ''
   }
 
   handleChange = name => event => {
@@ -21,15 +24,52 @@ class CreateEvent extends Component {
           
           <TextField
             id="outlined-name"
-            label="Name"
+            label="Event Name"
             className={classes.textField}
             value={this.state.name}
             onChange={this.handleChange('name')}
             margin="normal"
             variant="outlined"
           />
+
+          <TextField
+            id="outlined-name"
+            label="Event Budget"
+            className={classes.textField}
+            value={this.state.budget}
+            onChange={this.handleChange('budget')}
+            margin="normal"
+            variant="outlined"
+          />
+
+          <TextField
+            id="outlined-name"
+            label="Event Coordinator"
+            className={classes.textField}
+            value={this.state.coord}
+            onChange={this.handleChange('coord')}
+            margin="normal"
+            variant="outlined"
+          />
+
+          <TextField
+            id="outlined-name"
+            label="Event Description"
+            className={classes.textArea}
+            value={this.state.desc}
+            onChange={this.handleChange('desc')}
+            margin="normal"
+            variant="outlined"
+            multiline={true}
+            rows={4}
+          />
           
         </form>
+
+        <Button variant="contained" color="primary" className={classes.button}>
+          Create Event
+        </Button>
+        
       </div>
     );
   }
@@ -39,10 +79,19 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
+    width: '100%'
+  },
+  textArea: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: '100%'
   },
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+  },
+  button: {
+    width: '100%'
   },
 });
 
