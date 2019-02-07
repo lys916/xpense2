@@ -22,6 +22,8 @@ import CreateEvent from './CreateEvent';
 import CreateTransaction from './CreateTransaction';
 import Volunteers from './Volunteers';
 import Settings from './Settings';
+import ViewEvent from './ViewEvent';
+import ViewTransaction from './ViewTransaction';
 
 const drawerWidth = 240;
 
@@ -74,7 +76,10 @@ class App extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
-    const { pathname } = this.props.location;
+    const pathStr = this.props.location.pathname;
+    const pathArray = pathStr.split('/');
+    const pathname = pathArray[1];
+    const pathIndex = pathArray[2];
     // drawer in jsx
     const drawer = (
       <div>
@@ -123,7 +128,7 @@ class App extends React.Component {
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
 
-            { pathname === '/create-event' ?  
+            { pathname === 'create-event' || pathname === 'event' ?  
               <IconButton
               color="inherit"
               aria-label="Open drawer"
@@ -134,7 +139,7 @@ class App extends React.Component {
             </IconButton>
             : null}
 
-              { pathname === '/create-transaction' ?  
+              { pathname === 'create-transaction' || pathname === 'transaction' ?  
               <IconButton
               color="inherit"
               aria-label="Open drawer"
@@ -145,7 +150,7 @@ class App extends React.Component {
             </IconButton>
             : null}
 
-            { pathname === '/events' || pathname === '/transactions' || pathname === '/volunteers' || pathname === '/settings'?  
+            { pathname === 'events' || pathname === 'transactions' || pathname === 'volunteers' || pathname === 'settings'?  
               <IconButton
               color="inherit"
               aria-label="Open drawer"
@@ -156,16 +161,18 @@ class App extends React.Component {
             </IconButton>
             : null}
 
+            
+         
            
 
           
             <Typography variant="h6" color="inherit" noWrap>
-              {pathname === '/events' ? 'Events' : null }
-              {pathname === '/transactions' ? 'Transactions' : null }
-              {pathname === '/create-event' ? 'Create Event' : null }
-              {pathname === '/create-transaction' ? 'Create Transaction' : null }
-              {pathname === '/volunteers' ? 'Volunteers' : null }
-              {pathname === '/settings' ? 'Settings' : null }
+              {pathname === 'events' ? 'Events' : null }
+              {pathname === 'transactions' ? 'Transactions' : null }
+              {pathname === 'create-event' ? 'Create Event' : null }
+              {pathname === 'create-transaction' ? 'Create Transaction' : null }
+              {pathname === 'volunteers' ? 'Volunteers' : null }
+              {pathname === 'settings' ? 'Settings' : null }
             </Typography>
 
           </Toolbar>
@@ -206,12 +213,14 @@ class App extends React.Component {
         {/* MAIN CONTENT */}
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {pathname === '/events' ? <Events history={this.props.history} /> : null}
-          {pathname === '/transactions' ? <Transactions history={this.props.history} /> : null}
-          {pathname === '/create-event' ? <CreateEvent /> : null}
-          {pathname === '/create-transaction' ? <CreateTransaction /> : null}
-          {pathname === '/volunteers' ? <Volunteers /> : null}
-          {pathname === '/settings' ? <Settings /> : null}
+          {pathname === 'events' ? <Events history={this.props.history} /> : null}
+          {pathname === 'transactions' ? <Transactions history={this.props.history} /> : null}
+          {pathname === 'create-event' ? <CreateEvent /> : null}
+          {pathname === 'create-transaction' ? <CreateTransaction /> : null}
+          {pathname === 'volunteers' ? <Volunteers /> : null}
+          {pathname === 'settings' ? <Settings /> : null}
+          {pathname === 'event' ? <ViewEvent location={this.props.location}/> : null}
+          {pathname === 'transaction' ? <ViewTransaction location={this.props.location}/> : null}
         </main>
 
       </div>

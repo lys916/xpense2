@@ -21,9 +21,9 @@ class Events extends Component {
     const { classes } = this.props;
     return (
       <div className="Event">
-      {events.map(event=>{
+      {events.map((event, index)=>{
         return(
-          <Card className={classes.card}>
+          <Card className={classes.card} onClick={()=>{this.props.history.push(`/event/${index}`)}}>
             <CardActionArea>
               <CardContent>
 
