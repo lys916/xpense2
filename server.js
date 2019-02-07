@@ -3,30 +3,14 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
-
-// const orderRouter = require('./order/OrderRoutes');
 // const userRouter = require('./user/UserRoutes');
-// const customFoodRouter = require('./customFood/CustomFoodRoutes');
-// const systemFoodRouter = require('./systemFood/SystemFoodRoutes');
-
-// const { addSystemFood } = require('./util_functions');
+// const transactionRouter = require('./transaction/transactionRoutes');
+// const eventRouter = require('./event/eventRoutes');
 
 const server = express();
 
-// const corsOptions = {
-//   "origin": (
-//     //  "https://simple-count.herokuapp.com"
-//       "http://localhost:3000"
-//   ),
-//   "credentials": true,
-// };
-
 server.use(cors());   // https://medium.com/trisfera/using-cors-in-express-cac7e29b005b
 server.use(bodyParser.json());
-
-// server.get('/', function(req, res) {
-//   res.status(200).json({ status: 'API Running' });
-// });
 
 mongoose
   .connect
@@ -39,9 +23,8 @@ mongoose
 });
 
 // server.use('/user', userRouter);
-// server.use('/dailyFood', dailyFoodRouter);
-// server.use('/order', orderRouter);
-// server.use('/systemFood', systemFoodRouter);
+// server.use('/transaction', transactionRouter);
+// server.use('/event', eventRouter);
 
 // serve static assets if we're in production
 if(process.env.NODE_ENV === 'production'){

@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 
 
 
 class CreateEvent extends Component {
-
   state = {
     name: ''
   }

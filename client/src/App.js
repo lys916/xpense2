@@ -11,7 +11,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -73,6 +72,8 @@ class App extends React.Component {
   render() {
     const { classes, theme } = this.props;
     const { pathname } = this.props.location;
+
+    // drawer in jsx
     const drawer = (
       <div>
         <div className={classes.toolbar} />
@@ -115,6 +116,7 @@ class App extends React.Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
+        {/* HEADER */}
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             <IconButton
@@ -130,6 +132,8 @@ class App extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
+
+        {/* SIDE DRAWER */}
         <nav className={classes.drawer}>
           {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation="css">
@@ -143,6 +147,7 @@ class App extends React.Component {
                 paper: classes.drawerPaper,
               }}
             >
+              {/* jsx drawer */}
               {drawer}
             </Drawer>
           </Hidden>
@@ -154,11 +159,13 @@ class App extends React.Component {
               variant="permanent"
               open
             >
-              {drawer}
+              {/* jsx drawer */}
+              {drawer} 
             </Drawer>
           </Hidden>
         </nav>
-        {/* CONTENT */}
+
+        {/* MAIN CONTENT */}
         <main className={classes.content}>
           <div className={classes.toolbar} />
           {pathname === '/events' ? <Events history={this.props.history} /> : null}
@@ -166,6 +173,7 @@ class App extends React.Component {
           {pathname === '/create-event' ? <CreateEvent /> : null}
           {pathname === '/create-transaction' ? <CreateTransaction /> : null}
         </main>
+
       </div>
     );
   }

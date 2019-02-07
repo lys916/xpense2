@@ -1,25 +1,19 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-// import NavBar from './NavBar';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography'
 
+// transactions arrasy should be coming from the database
 const transactions = [
-    {name: 'Transactions 1', desc: 'Transactions 1 description'},
-    {name: 'Transactions 2', desc: 'Transactions 2 description'},
-    {name: 'Transactions 3', desc: 'Transactions 3 description'},
-    {name: 'Transactions 4', desc: 'Transactions 4 description'},
-    {name: 'Transactions 5', desc: 'Transactions 5 description'}
+  {name: 'Transactions 1', desc: 'Transactions 1 description'},
+  {name: 'Transactions 2', desc: 'Transactions 2 description'},
+  {name: 'Transactions 3', desc: 'Transactions 3 description'},
+  {name: 'Transactions 4', desc: 'Transactions 4 description'},
+  {name: 'Transactions 5', desc: 'Transactions 5 description'}
 ];
 
 class Transactions extends Component {
@@ -52,9 +46,9 @@ class Transactions extends Component {
           )
         })}
         <div className={classes.space}></div>
-        <Fab color="primary" aria-label="Add" className={classes.fab} onClick={()=>{this.props.history.push('/create-transaction')}}>
-          <AddIcon />
-        </Fab>
+          <Fab color="primary" aria-label="Add" className={classes.fab} onClick={()=>{this.props.history.push('/create-transaction')}}>
+            <AddIcon />
+          </Fab>
       </div>
     );
   }
