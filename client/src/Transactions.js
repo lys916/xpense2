@@ -28,7 +28,7 @@ class Transactions extends Component {
                 <Card className={classes.card} onClick={()=>{this.props.history.push(`/transaction/${index}`)}}>
                 <CardActionArea>
                   <CardContent>
-
+                    <div className={classes.createdBy}>Created By: {transaction.createdBy} On: {transaction.createdOn}</div>
                     <Typography gutterBottom variant="h5" component="h2">
                       {transaction.title}
                     </Typography>
@@ -69,6 +69,8 @@ const styles = theme => ({
   },
   space: {
     height: 50
+  },
+  createdBy: {
   }
 });
 

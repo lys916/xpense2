@@ -7,12 +7,42 @@ import axios from 'axios';
 import { createTransaction } from './actions/transactionActions';
 
 
+import PropTypes from 'prop-types';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
+
+import Camera from 'react-html5-camera-photo';
+import 'react-html5-camera-photo/build/css/index.css';
+
+
 
 class CreateTransaction extends Component {
   state = {
     title: '',
     amount: '',
-    desc: ''
+    desc: '',
+    image: null,
+    imageArray: [],
+    open: false
+  }
+
+   handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false, image: null });
+  };
+
+  handleAcceptPhoto = ()=>{
+    const image = this.state.image;
+    const imageArray = this.state.imageArray;
+    imageArray.push(image);
+    this.setState({open: false, imageArray, image: null});
   }
 
   handleChange = name => event => {
@@ -24,8 +54,15 @@ class CreateTransaction extends Component {
     this.props.createTransaction({title, amount, desc}, this.props.history);
   }
 
+    onTakePhoto (dataUri) {
+    // Do stuff with the dataUri photo...
+    // console.log('takePhoto', dataUri);
+    this.setState({image: dataUri});
+  }
+
   render() {
     const {classes} = this.props;
+    console.log('photo', this.state.image);
     return (
       <div className="CreateTransaction">
         <form className={classes.container} noValidate autoComplete="off">
@@ -63,10 +100,62 @@ class CreateTransaction extends Component {
           />
           
         </form>
-
+        <br/>
+        <div className={classes.imageBox}>
+          {this.state.imageArray.map(img=>{
+            return(
+              <div className={classes.cameraImg} ><img className={classes.img} src={img} /></div>
+            )
+          })}
+          
+        </div>
+        
+        <br/>
+        <Button className={classes.button} variant="outlined" color="primary" onClick={this.handleClickOpen}>
+          Take Photo
+        </Button>
+        <br/><br/>
         <Button variant="contained" color="primary" className={classes.button}onClick={this.createTransaction} >
           Create Transaction
         </Button>
+
+
+        {/* camera */}
+
+        <Dialog
+          fullScreen={true}
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="responsive-dialog-title"
+        >
+          {/* <DialogTitle id="responsive-dialog-title">{"Title"}</DialogTitle> */}
+
+          <DialogContent>
+          {this.state.image ? 
+        <div>
+            <img className={classes.img} src={this.state.image} />
+      
+        </div> : 
+        <Camera
+          onTakePhoto = { (dataUri) => { this.onTakePhoto(dataUri); } }
+        />}
+          </DialogContent>
+          {this.state.image ? <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.handleAcceptPhoto} color="primary" autoFocus>
+              Okay
+            </Button>
+          </DialogActions> : <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+
+          </DialogActions>}
+          
+
+        </Dialog>
         
       </div>
     );
@@ -91,6 +180,18 @@ const styles = theme => ({
   button: {
     width: '100%'
   },
+  cameraImg: {
+    width: '45%'
+  },
+  img: {
+    width: '100%'
+  },
+  imageBox: {
+    width: '100%',
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around'
+  }
 });
 
 const mapStateToProps = (state) => {

@@ -26,6 +26,7 @@ import Volunteers from './Volunteers';
 import Settings from './Settings';
 import ViewEvent from './ViewEvent';
 import ViewTransaction from './ViewTransaction';
+import Camera from './Camera';
 
 const drawerWidth = 240;
 
@@ -64,7 +65,15 @@ const styles = theme => ({
 class App extends React.Component {
   state = {
     mobileOpen: false,
+    cameraImg: null
   };
+
+  acceptPhoto = (image) => {
+    // Do stuff with the photo...
+    this.setState({cameraImg: image}, ()=>{
+      // this.props.history.push();
+    });
+  }
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -227,9 +236,10 @@ class App extends React.Component {
           {pathname === 'events' ? <Events history={history} /> : null}
           {pathname === 'transactions' ? <Transactions history={history} /> : null}
           {pathname === 'create-event' ? <CreateEvent history={history}/> : null}
-          {pathname === 'create-transaction' ? <CreateTransaction history={history} /> : null}
+          {pathname === 'create-transaction' ? <CreateTransaction cameraImg={this.state.cameraImg} history={history} /> : null}
           {pathname === 'volunteers' ? <Volunteers /> : null}
           {pathname === 'settings' ? <Settings /> : null}
+          {pathname === 'camera' ? <Camera acceptPhoto={this.acceptPhoto}/> : null}
           {pathname === 'event' ? <ViewEvent history={history} location={location}/> : null}
           {pathname === 'transaction' ? <ViewTransaction history={history} location={location}/> : null}
         </main>
