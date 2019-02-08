@@ -15,8 +15,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 
-import Camera from 'react-html5-camera-photo';
+// import Camera from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
+import Camera, { FACING_MODES, IMAGE_TYPES } from 'react-html5-camera-photo';
 
 
 
@@ -138,7 +139,7 @@ class CreateTransaction extends Component {
         </div> : 
         <Camera
           onTakePhoto = { (dataUri) => { this.onTakePhoto(dataUri) } }
-          isImageMirror = {false}
+           idealFacingMode = {FACING_MODES.ENVIRONMENT}
         />}
           </DialogContent>
           {this.state.image ? <DialogActions>
