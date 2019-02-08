@@ -38,12 +38,22 @@ class ViewTransaction extends Component {
             </IconButton>
         </div>
         <Typography gutterBottom variant="h5" component="h2">
-            {transactions[transactionIndex].name}
+            {transactions[transactionIndex].title}
         </Typography>
 
         <Typography component="p">
             {transactions[transactionIndex].desc}
         </Typography>
+
+        <div className={classes.imageBox}>
+          {transactions[transactionIndex].images.map(image=>{
+            return(
+              <img className={classes.img} src={image} />
+            )
+          })}
+            
+        </div>
+
       </div>
     );
   }
@@ -55,6 +65,15 @@ const styles = theme => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'flex-end'
+  },
+  imageBox: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  img: {
+    width: '40%',
+    height: '100%',
+    marginRight: 10
   }
 });
 

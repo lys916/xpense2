@@ -4,10 +4,13 @@ const mongoose = require('mongoose');
 const transactionRouter = express.Router();
 const Transaction = require('./TransactionModel.js');
 
+const fs = require('fs');
+const gridfs = require('mongoose-gridfs');
+
 
 // const CustomFood = require('./CustomFoodModel');
 
-transactionRouter.get('/', function(req, res){
+transactionRouter.get('/', function(req, res){ 
   console.log('server, getting transactions');
   Transaction.find({}).sort('dateCreated').then(trans=>{
     console.log('trans from db', trans);
@@ -15,10 +18,26 @@ transactionRouter.get('/', function(req, res){
   });
 });
 
+// function _arrayBufferToBase64( buffer ) {
+//     var binary = '';
+//     var bytes = new Uint8Array( buffer );
+//     var len = bytes.byteLength;
+//     for (var i = 0; i < len; i++) {
+//         binary += String.fromCharCode( bytes[ i ] );
+//     }
+//     return window.btoa( binary );
+// }
+
 transactionRouter.post('/create', function(req, res){
-  console.log(req.body);
+  const { title, amount, desc, images} =  req.body;
     Transaction.create(req.body).then(saved=>{
-      console.log('saved', saved);
+      // console.log('saved', saved);
+      // const buffer = saved.images[0].image;
+      // console.log('BUFFER', buffer);
+      // let base64data = buffer.toString('base64');
+      // console.log('converted', base64data);
+      // const base64 = _arrayBufferToBase64(saved.images.image);
+      // console.log('base64 converted', base64);
       res.send(saved);
     });
 });

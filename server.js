@@ -11,6 +11,11 @@ const server = express();
 
 server.use(cors());   // https://medium.com/trisfera/using-cors-in-express-cac7e29b005b
 server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({
+    extended: true,
+    limit: '500mb'
+}));
+server.use(bodyParser.json({limit: '5000mb'}));
 
 mongoose
   .connect

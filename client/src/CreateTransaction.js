@@ -27,7 +27,7 @@ class CreateTransaction extends Component {
     amount: '',
     desc: '',
     image: null,
-    imageArray: [],
+    images: [],
     open: false
   }
 
@@ -41,9 +41,9 @@ class CreateTransaction extends Component {
 
   handleAcceptPhoto = ()=>{
     const image = this.state.image;
-    const imageArray = this.state.imageArray;
-    imageArray.push(image);
-    this.setState({open: false, imageArray, image: null});
+    const images = this.state.images;
+    images.push(image);
+    this.setState({open: false, images, image: null});
   }
 
   handleChange = name => event => {
@@ -51,8 +51,8 @@ class CreateTransaction extends Component {
   };
 
   createTransaction = ()=>{
-    const {title, amount, desc} = this.state;
-    this.props.createTransaction({title, amount, desc}, this.props.history);
+    const {title, amount, desc, images} = this.state;
+    this.props.createTransaction({title, amount, desc, images}, this.props.history);
   }
 
     onTakePhoto (dataUri) {
@@ -103,7 +103,7 @@ class CreateTransaction extends Component {
         </form>
         <br/>
         <div className={classes.imageBox}>
-          {this.state.imageArray.map(img=>{
+          {this.state.images.map(img=>{
             return(
               <div className={classes.cameraImg} ><img className={classes.img} src={img} /></div>
             )
@@ -141,6 +141,7 @@ class CreateTransaction extends Component {
           onTakePhoto = { (dataUri) => { this.onTakePhoto(dataUri) } }
            idealFacingMode = {FACING_MODES.ENVIRONMENT}
            isImageMirror = {false}
+           idealResolution = {{width: 50, height: 60}}
         />}
           </DialogContent>
           {this.state.image ? <DialogActions>

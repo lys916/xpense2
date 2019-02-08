@@ -9,6 +9,16 @@ import Typography from '@material-ui/core/Typography'
 import { getTransactions } from './actions/transactionActions';
 import { connect } from 'react-redux';
 
+function _arrayBufferToBase64( buffer ) {
+    var binary = '';
+    var bytes = new Uint8Array( buffer );
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode( bytes[ i ] );
+    }
+    return window.btoa( binary );
+}
+
 class Transactions extends Component {
 
     componentDidMount(){
@@ -17,8 +27,9 @@ class Transactions extends Component {
     }
   }
   render() {
-    const { classes } = this.props;
+    const { classes, transactions } = this.props;
     console.log('transactions', this.props.transactions);
+
     return (
       <div className="Event">
         {this.props.transactions.length < 1 ? <div>There is no transaction</div>: 
@@ -36,6 +47,15 @@ class Transactions extends Component {
                     <Typography component="p">
                       {transaction.desc}
                     </Typography>
+
+                    <div className={classes.imageBox}>
+                      {transaction.images.map(image=>{
+                        return(
+                          <img className={classes.img} src={image} />
+                        )
+                      })}
+                        
+                    </div>
 
                   </CardContent>
                 </CardActionArea>
@@ -71,7 +91,15 @@ const styles = theme => ({
     height: 50
   },
   createdBy: {
-  }
+  },
+  imageBox: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  img: {
+    height: '20%',
+    marginRight: 10
+  },
 });
 
 const mapStateToProps = (state) => {
