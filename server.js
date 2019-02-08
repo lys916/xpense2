@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 // const userRouter = require('./user/UserRoutes');
-const transactionRouter = require('./Transaction/transactionRoutes');
+const transactionRouter = require('./Transaction/TransactionRoutes');
 const eventRouter = require('./Event/EventRoutes');
 
 const server = express();
