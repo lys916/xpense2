@@ -137,7 +137,8 @@ class CreateTransaction extends Component {
       
         </div> : 
         <Camera
-          onTakePhoto = { (dataUri) => { this.onTakePhoto(dataUri); } }
+          onTakePhoto = { (dataUri) => { this.onTakePhoto(dataUri) } }
+          isImageMirror = {false}
         />}
           </DialogContent>
           {this.state.image ? <DialogActions>
