@@ -140,6 +140,7 @@ class CreateTransaction extends Component {
         <Camera
           onTakePhoto = { (dataUri) => { this.onTakePhoto(dataUri) } }
            idealFacingMode = {FACING_MODES.ENVIRONMENT}
+           isImageMirror = {false}
         />}
           </DialogContent>
           {this.state.image ? <DialogActions>
