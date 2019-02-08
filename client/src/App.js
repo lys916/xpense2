@@ -227,11 +227,11 @@ class App extends React.Component {
           {pathname === 'events' ? <Events history={history} /> : null}
           {pathname === 'transactions' ? <Transactions history={history} /> : null}
           {pathname === 'create-event' ? <CreateEvent history={history}/> : null}
-          {pathname === 'create-transaction' ? <CreateTransaction /> : null}
+          {pathname === 'create-transaction' ? <CreateTransaction history={history} /> : null}
           {pathname === 'volunteers' ? <Volunteers /> : null}
           {pathname === 'settings' ? <Settings /> : null}
           {pathname === 'event' ? <ViewEvent history={history} location={location}/> : null}
-          {pathname === 'transaction' ? <ViewTransaction location={location}/> : null}
+          {pathname === 'transaction' ? <ViewTransaction history={history} location={location}/> : null}
         </main>
 
       </div>

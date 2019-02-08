@@ -23,26 +23,36 @@ class Events extends Component {
     const { classes } = this.props;
     return (
       <div className="Event">
-      {this.props.events.map((event, index)=>{
-        return(
-          <Card className={classes.card} onClick={()=>{this.props.history.push(`/event/${index}`)}}>
-            <CardActionArea>
-              <CardContent>
 
-                <Typography gutterBottom variant="h5" component="h2">
-                  {event.name}
-                </Typography>
+      {
+        this.props.events.length < 1 ? 
+        <div>There is no event.</div> : 
+        <div>
+          {this.props.events.map((event, index)=>{
+            return(
+              <Card className={classes.card} onClick={()=>{this.props.history.push(`/event/${index}`)}}>
+                <CardActionArea>
+                  <CardContent>
 
-                <Typography component="p">
-                  {event.desc}
-                </Typography>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {event.name}
+                    </Typography>
 
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        )
-      })}
-      <div className={classes.space}></div>
+                    <Typography component="p">
+                      {event.desc}
+                    </Typography>
+
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            )
+
+          })}
+        </div> 
+      }
+      
+        <div className={classes.space}>
+        </div>
         <Fab color="primary" aria-label="Add" className={classes.fab} onClick={()=>{this.props.history.push('/create-event')}}>
           <AddIcon />
         </Fab>
@@ -59,7 +69,7 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     position: 'fixed', 
     bottom: 0,
-    right: 0
+    right: 0,
   },
   extendedIcon: {
     marginRight: theme.spacing.unit,

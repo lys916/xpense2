@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 // const userRouter = require('./user/UserRoutes');
-// const transactionRouter = require('./transaction/transactionRoutes');
+const transactionRouter = require('./Transaction/transactionRoutes');
 const eventRouter = require('./Event/EventRoutes');
 
 const server = express();
@@ -23,7 +23,7 @@ mongoose
 });
 
 // server.use('/user', userRouter);
-// server.use('/transaction', transactionRouter);
+server.use('/transaction', transactionRouter);
 server.use('/event', eventRouter);
 
 // serve static assets if we're in production

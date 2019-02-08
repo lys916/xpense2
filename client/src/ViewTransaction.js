@@ -1,24 +1,42 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
+import { deleteTransaction } from './actions/transactionActions';
+import { withStyles } from '@material-ui/core/styles';
+import Delete from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 
 
-// evetns array should be coming from database
-const transactions = [
-  {name: 'Transactions 1', desc: 'Transactions 1 description'},
-  {name: 'Transactions 2', desc: 'Transactions 2 description'},
-  {name: 'Transactions 3', desc: 'Transactions 3 description'},
-  {name: 'Transactions 4', desc: 'Transactions 4 description'},
-  {name: 'Transactions 5', desc: 'Transactions 5 description'}
-];
+class ViewTransaction extends Component {
 
-class ViewEvent extends Component {
+  handleDeleteTransaction =(id)=>{
+    console.log(id);
+    this.props.deleteTransaction(id, this.props.history);
+  }
+
   render() {
     const pathStr = this.props.location.pathname;
     const pathArray = pathStr.split('/');
     const transactionIndex = pathArray[2];
-    console.log('index', transactionIndex);
+    const {classes} = this.props;
+    const transactions = this.props.transactions;
+    if(transactions.length < 1){
+      this.props.history.push('/transactions');
+      return null;
+    }
+
     return (
       <div className="CreateTransaction">
+        <div className={classes.viewBar}>
+          <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={()=>{this.handleDeleteTransaction(transactions[transactionIndex]._id)}}
+              className={classes.menuButton}
+            >
+              <Delete/>
+            </IconButton>
+        </div>
         <Typography gutterBottom variant="h5" component="h2">
             {transactions[transactionIndex].name}
         </Typography>
@@ -30,4 +48,21 @@ class ViewEvent extends Component {
     );
   }
 }
-export default ViewEvent;
+
+const styles = theme => ({
+  viewBar: {
+    background: '#dedede',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end'
+  }
+});
+
+
+const mapStateToProps = (state) => {
+	return {
+    transactions: state.transactions
+  }
+}
+
+export default connect(mapStateToProps, {  deleteTransaction })(withStyles(styles)(ViewTransaction));
