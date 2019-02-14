@@ -20,23 +20,25 @@ function _arrayBufferToBase64( buffer ) {
 }
 
 class Transactions extends Component {
-
-    componentDidMount(){
+  componentDidMount(){
     if(this.props.transactions.length < 1){
       this.props.getTransactions();
     }
   }
   render() {
-    const { classes, transactions } = this.props;
-    console.log('transactions', this.props.transactions);
-
+    const { classes, transactions, user } = this.props;
+    console.log('transaction user', this.props.user);
+    if(!this.props.user._id){
+      this.props.history.push('/login');
+      return null;
+    }
     return (
-      <div className="Event">
+      <div className={classes.root}>
         {this.props.transactions.length < 1 ? <div>There is no transaction</div>: 
         <div>
           {this.props.transactions.map((transaction, index)=>{
             return(
-                <Card className={classes.card} onClick={()=>{this.props.history.push(`/transaction/${index}`)}}>
+                <Card className={classes.card} onClick={()=>{this.props.history.push(`/transaction/${transaction._id}`)}}>
                 <CardActionArea>
                   <CardContent>
                     <div className={classes.createdBy}>Created By: {transaction.createdBy} On: {transaction.createdOn}</div>
@@ -75,13 +77,17 @@ class Transactions extends Component {
 }
 
 const styles = theme => ({
+  root: {
+    paddingTop: 70,
+    paddingBottom: 80
+  },
   card: {
     marginBottom: 10
   },
   fab: {
     margin: theme.spacing.unit,
     position: 'fixed', 
-    bottom: 0,
+    bottom: 70,
     right: 0
   },
   extendedIcon: {
@@ -104,7 +110,8 @@ const styles = theme => ({
 
 const mapStateToProps = (state) => {
 	return {
-    transactions: state.transactions
+    transactions: state.transactions,
+    user: state.user
   }
 }
 

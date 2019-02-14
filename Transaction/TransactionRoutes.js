@@ -13,7 +13,7 @@ const gridfs = require('mongoose-gridfs');
 transactionRouter.get('/', function(req, res){ 
   console.log('server, getting transactions');
   Transaction.find({}).sort('dateCreated').then(trans=>{
-    console.log('trans from db', trans);
+    // console.log('trans from db', trans);
     res.json(trans);
   });
 });
@@ -47,9 +47,25 @@ transactionRouter.post('/delete', function(req, res){
 
     console.log('id', id);
 	Transaction.findOneAndRemove({_id: id}).then(deleted => {
-    console.log('deleted', deleted);
+    // console.log('deleted', deleted);
 		res.json(deleted);
 	});
+});
+
+transactionRouter.get('/:id', function(req, res){
+  console.log('getting single transaction');
+	const id = req.params.id;
+  console.log(id);
+	// find posts that owns by the people 'id user' is following...
+	if (id){
+		Transaction.findById(id).then(transaction => {
+
+				// console.log('res posts', posts);
+			res.json(transaction);
+	
+		});
+		
+	}
 });
 
 // customFoodRouter.post('/updateFood', function(req, res){
@@ -86,22 +102,7 @@ transactionRouter.post('/delete', function(req, res){
 // 	} 
 // });
 
-// postRouter.get('/:id', function(req, res){
-// 	const id = req.params.id;
-// 	// find posts that owns by the people 'id user' is following...
-// 	if (id){
-// 		User.findById(id).then(user => {
-// 			Post.find({ 'user' : { $in: user.following } })
-// 			.sort({createdOn: -1})
-// 			.populate('user')
-// 			.then(posts => {
-// 				console.log('res posts', posts);
-// 			res.json(posts);
-// 		})	
-// 		});
-		
-// 	}
-// });
+
 
 // postRouter.post('/', function(req, res){
 // 	console.log(req.body);

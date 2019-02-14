@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
-// const userRouter = require('./user/UserRoutes');
+const userRouter = require('./user/UserRoutes');
 const transactionRouter = require('./Transaction/TransactionRoutes');
 const eventRouter = require('./Event/EventRoutes');
 
@@ -27,7 +27,7 @@ mongoose
     console.log('error connect to mongo');
 });
 
-// server.use('/user', userRouter);
+server.use('/user', userRouter);
 server.use('/transaction', transactionRouter);
 server.use('/event', eventRouter);
 

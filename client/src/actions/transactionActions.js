@@ -7,7 +7,7 @@ export const createTransaction = (transaction, history) => {
 		// 	  type: 'CREATING_CUSTOM_FOOD'
 		//   });
 		axios.post(`/transaction/create`, transaction).then(res => {
-			console.log('create', res.data);
+			console.log('created', res.data);
 			dispatch({
 				type: 'TRANSACTION_CREATED',
 				payload: res.data

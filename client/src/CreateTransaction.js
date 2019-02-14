@@ -55,7 +55,7 @@ class CreateTransaction extends Component {
     this.props.createTransaction({title, amount, desc, images}, this.props.history);
   }
 
-    onTakePhoto (dataUri) {
+  onTakePhoto (dataUri) {
     // Do stuff with the dataUri photo...
     // console.log('takePhoto', dataUri);
     this.setState({image: dataUri});
@@ -66,11 +66,26 @@ class CreateTransaction extends Component {
     console.log('photo', this.state.image);
     return (
       <div className="CreateTransaction">
+        <br/><br/><br/><br/>
+        <Button className={classes.button} variant="outlined" color="primary" onClick={this.handleClickOpen}>
+          Take Photo
+        </Button>
+        <br/><br/>
+
+        <div className={classes.imageBox}>
+          {this.state.images.map(img=>{
+            return(
+              <div className={classes.cameraImg} ><img className={classes.img} src={img} /></div>
+            )
+          })}
+          
+        </div>
+        
         <form className={classes.container} noValidate autoComplete="off">
           
           <TextField
             id="outlined-name"
-            label="Title"
+            label="Transaction Title"
             className={classes.textField}
             value={this.state.title}
             onChange={this.handleChange('title')}
@@ -80,7 +95,7 @@ class CreateTransaction extends Component {
 
           <TextField
             id="outlined-name"
-            label="Amount"
+            label="Transaction Amount"
             className={classes.textField}
             value={this.state.amount}
             onChange={this.handleChange('amount')}
@@ -90,7 +105,7 @@ class CreateTransaction extends Component {
 
           <TextField
             id="outlined-name"
-            label="Event Description"
+            label="Transaction Description"
             className={classes.textArea}
             value={this.state.desc}
             onChange={this.handleChange('desc')}
@@ -102,65 +117,52 @@ class CreateTransaction extends Component {
           
         </form>
         <br/>
-        <div className={classes.imageBox}>
-          {this.state.images.map(img=>{
-            return(
-              <div className={classes.cameraImg} ><img className={classes.img} src={img} /></div>
-            )
-          })}
-          
-        </div>
         
-        <br/>
-        <Button className={classes.button} variant="outlined" color="primary" onClick={this.handleClickOpen}>
-          Take Photo
-        </Button>
-        <br/><br/>
-        <Button variant="contained" color="primary" className={classes.button}onClick={this.createTransaction} >
+
+        <Button variant="contained" color="primary" className={classes.createButton}onClick={this.createTransaction} >
           Create Transaction
         </Button>
+        <br/><br/><br/>
 
 
         {/* camera */}
 
-        <Dialog
-          fullScreen={true}
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="responsive-dialog-title"
-        >
-          {/* <DialogTitle id="responsive-dialog-title">{"Title"}</DialogTitle> */}
+        	<Dialog
+         	fullScreen={true}
+          	open={this.state.open}
+          	onClose={this.handleClose}
+          	aria-labelledby="responsive-dialog-title"
+        	>
+         {/* <DialogTitle id="responsive-dialog-title">{"Title"}</DialogTitle> */}
 
-          <DialogContent>
-          {this.state.image ? 
-        <div>
-            <img className={classes.img} src={this.state.image} />
-      
-        </div> : 
-        <Camera
-          onTakePhoto = { (dataUri) => { this.onTakePhoto(dataUri) } }
-           idealFacingMode = {FACING_MODES.ENVIRONMENT}
-           isImageMirror = {false}
-          //  idealResolution = {{width: 50, height: 60}}
-        />}
-          </DialogContent>
-          {this.state.image ? <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.handleAcceptPhoto} color="primary" autoFocus>
-              Okay
-            </Button>
-          </DialogActions> : <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
+				<DialogContent>
+					{this.state.image ? 
+					<div>
+						<img className={classes.img} src={this.state.image} />
+					</div> : 
+					<Camera
+						onTakePhoto = { (dataUri) => { this.onTakePhoto(dataUri) } }
+						idealFacingMode = {FACING_MODES.ENVIRONMENT}
+						isImageMirror = {false}
+						idealResolution = {{width: 100, height: 130}}
+					/>}
+				</DialogContent>
 
-          </DialogActions>}
-          
-
-        </Dialog>
-        
+				{this.state.image ? 
+				<DialogActions>
+					<Button onClick={this.handleClose} color="primary">
+					Cancel
+					</Button>
+					<Button onClick={this.handleAcceptPhoto} color="primary" autoFocus>
+					Okay
+					</Button>
+				</DialogActions> : 
+				<DialogActions>
+					<Button onClick={this.handleClose} color="primary">
+						Cancel
+					</Button>
+				</DialogActions>}
+      	</Dialog>
       </div>
     );
   }
@@ -182,7 +184,12 @@ const styles = theme => ({
     flexWrap: 'wrap',
   },
   button: {
-    width: '100%'
+    width: '95%'
+  },
+  createButton: {
+    marginBottom: 70,
+    width: '95%'
+
   },
   cameraImg: {
     width: '45%'

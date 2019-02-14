@@ -1,268 +1,37 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import './App.css';
-import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Divider from '@material-ui/core/Divider';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuIcon from '@material-ui/icons/Menu';
-import ArrowBack from '@material-ui/icons/ArrowBack';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-import Events from './Events';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import Button from '@material-ui/core/Button';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from './Home';
+// import NewTrans from './NewTrans';
+// import UserList from './UserList';
+// import Settings from './Settings';
 import Transactions from './Transactions';
-import CreateEvent from './CreateEvent';
+import Login from './Login';
+import Register from './Register';
 import CreateTransaction from './CreateTransaction';
-import Volunteers from './Volunteers';
-import Settings from './Settings';
-import ViewEvent from './ViewEvent';
 import ViewTransaction from './ViewTransaction';
-import Camera from './Camera';
+import './App.css';
 
-const drawerWidth = 240;
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
-  appBar: {
-    marginLeft: drawerWidth,
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
-  },
-  menuButton: {
-    marginRight: 20,
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-  },
-});
-
-class App extends React.Component {
-  state = {
-    mobileOpen: false,
-    cameraImg: null
-  };
-
-  acceptPhoto = (image) => {
-    // Do stuff with the photo...
-    this.setState({cameraImg: image}, ()=>{
-      // this.props.history.push();
-    });
-  }
-
-  handleDrawerToggle = () => {
-    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
-  };
-
-  changeContent = (path)=>{
-    this.setState({mobileOpen: false}, ()=>{
-      this.props.history.push(`/${path}`);
-    });
-  }
-
+class App extends Component {
   render() {
-    const { classes, theme, history, location } = this.props;
-    const pathStr = this.props.location.pathname;
-    if(pathStr === '/'){
-      this.props.history.push('/events');
-      return null;
-    }
-    const pathArray = pathStr.split('/');
-    const pathname = pathArray[1];
-    const pathIndex = pathArray[2];
-    // drawer in jsx
-    const drawer = (
-      <div>
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>
-
-          <ListItem button onClick={()=>{this.changeContent('events')}}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary='Events' />
-          </ListItem>
-
-          <ListItem button onClick={()=>{this.changeContent('transactions')}}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary='Transactions' />
-          </ListItem>
-
-          <ListItem button onClick={()=>{this.changeContent('volunteers')}}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary='Volunteers' />
-          </ListItem>
-
-          <ListItem button onClick={()=>{this.changeContent('settings')}}>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary='Settings' />
-          </ListItem>
-
-        </List>
-        <Divider />
-      </div>
-    );
-
     return (
-      <div className={classes.root}>
-        <CssBaseline />
-
-        {/* HEADER */}
-        <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-
-            { pathname === 'create-event' || pathname === 'event' ?  
-              <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={()=>{history.push('/events')}}
-              className={classes.menuButton}
-            >
-              <ArrowBack/>
-            </IconButton>
-            : null}
-
-              { pathname === 'create-transaction' || pathname === 'transaction' ?  
-                <IconButton
-                color="inherit"
-                aria-label="Open drawer"
-                onClick={()=>{history.push('/transactions')}}
-                className={classes.menuButton}
-              >
-                <ArrowBack/>
-              </IconButton>
-            : null}
-
-            { pathname === 'events' || pathname === 'transactions' || pathname === 'volunteers' || pathname === 'settings'?  
-              <IconButton
-              color="inherit"
-              aria-label="Open drawer"
-              onClick={this.handleDrawerToggle}
-              className={classes.menuButton}
-            >
-              <MenuIcon/>
-            </IconButton>
-            : null}
-
-            
-         
-           
-
-          
-            <Typography variant="h6" color="inherit" noWrap>
-              {pathname === 'events' ? 'Events' : null }
-              {pathname === 'transactions' ? 'Transactions' : null }
-              {pathname === 'create-event' ? 'Create Event' : null }
-              {pathname === 'create-transaction' ? 'Create Transaction' : null }
-              {pathname === 'volunteers' ? 'Volunteers' : null }
-              {pathname === 'settings' ? 'Settings' : null }
-              {pathname === 'event' ? 'Event' : null }
-              {pathname === 'transaction' ? 'transaction' : null }
-            </Typography>
-
-                  
-
-          </Toolbar>
-          
-        </AppBar>
-
-        {/* SIDE DRAWER */}
-        <nav className={classes.drawer}>
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-          <Hidden smUp implementation="css">
-            <Drawer
-              container={this.props.container}
-              variant="temporary"
-              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-              open={this.state.mobileOpen}
-              onClose={this.handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-            >
-              {/* jsx drawer */}
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <Hidden xsDown implementation="css">
-            <Drawer
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              variant="permanent"
-              open
-            >
-              {/* jsx drawer */}
-              {drawer} 
-            </Drawer>
-          </Hidden>
-        </nav>
-
-        {/* MAIN CONTENT */}
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          {pathname === 'events' ? <Events history={history} /> : null}
-          {pathname === 'transactions' ? <Transactions history={history} /> : null}
-          {pathname === 'create-event' ? <CreateEvent history={history}/> : null}
-          {pathname === 'create-transaction' ? <CreateTransaction cameraImg={this.state.cameraImg} history={history} /> : null}
-          {pathname === 'volunteers' ? <Volunteers /> : null}
-          {pathname === 'settings' ? <Settings /> : null}
-          {pathname === 'camera' ? <Camera acceptPhoto={this.acceptPhoto}/> : null}
-          {pathname === 'event' ? <ViewEvent history={history} location={location}/> : null}
-          {pathname === 'transaction' ? <ViewTransaction history={history} location={location}/> : null}
-        </main>
-
+      <div className="App">
+        <Router>
+          <div>
+            <Route path='/' component={Home}  />
+            <Route path='/transactions' component={Transactions} />
+            <Route path='/create-transaction' component={CreateTransaction} />
+            {/* <Route path='/user-list' component={RequireAuth(UserList)} /> */}
+            {/* <Route path='/settings' component={RequireAuth(Settings)} /> */}
+            <Route path='/login' component={Login} />
+            <Route path='/register' component={Register} />
+            <Route path='/transaction/:id' component={ViewTransaction}  />
+          </div>
+        </Router>
       </div>
     );
   }
 }
 
-App.propTypes = {
-  classes: PropTypes.object.isRequired,
-  // Injected by the documentation to work in an iframe.
-  // You won't need it on your project.
-  container: PropTypes.object,
-  theme: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => {
-	return {
-    events: state.events
-  }
-}
-
-// export default withStyles(styles, { withTheme: true })(App);
-
-export default connect(mapStateToProps, {  })(withStyles(styles, { withTheme: true })(App));
+export default App;

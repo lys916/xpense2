@@ -5,8 +5,8 @@ const eventReducer = (state = [], action) => {
 		case 'FETCHED_TRANSACTIONS':
             return action.payload;
 
-		case 'TRANSACTION_CREATED':
-           return [action.payload, ...state];
+		// case 'TRANSACTION_CREATED':
+        //    return [action.payload, ...state];
 
 		case 'TRANSACTION_DELETED':
 			const filterDeleted = state.filter(event=>{
