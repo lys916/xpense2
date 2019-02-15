@@ -19,7 +19,15 @@ import withMobileDialog from '@material-ui/core/withMobileDialog';
 import 'react-html5-camera-photo/build/css/index.css';
 import Camera, { FACING_MODES, IMAGE_TYPES } from 'react-html5-camera-photo';
 
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import HighlightOff from '@material-ui/icons/HighlightOff';
 
+const events = [{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'},{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'},{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'}];
 
 class CreateTransaction extends Component {
   state = {
@@ -30,8 +38,12 @@ class CreateTransaction extends Component {
     images: [],
     open: false,
     openEvent: false,
-    events: [{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'},{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'},{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'}]
+    selectedEvent: null,
+    eventSearchInput: '',
+    events: [...events]
   }
+
+  
 
    handleClickOpen = () => {
     this.setState({ open: true });
@@ -72,9 +84,42 @@ class CreateTransaction extends Component {
     this.setState({image: dataUri});
   }
 
+  onSearchChange = (e)=>{
+   
+    if(e.target.value === ''){
+      this.setState({
+        events: events, 
+        eventSearchInput: e.target.value
+      });
+    }else{
+      this.setState({
+        eventSearchInput: e.target.value
+      });
+      this.filterEvent(e.target.value);
+    }
+    
+  }
+
+  handleSelectEvent = (event)=>{
+    this.setState({selectedEvent: event, eventSearchInput: event.name});
+    this.filterEvent(event.name);
+  }
+
+  filterEvent = (name)=>{
+    const filteredEvents = events.filter(event=>{
+      return event.name.includes(name);
+    });
+    console.log('filtered', filteredEvents);
+    this.setState({events: filteredEvents});
+  }
+
+  resetSearch = ()=>{
+    this.setState({eventSearchInput: '', events: events});
+  }
+
   render() {
     const {classes} = this.props;
-    console.log('photo', this.state.image);
+    console.log('copied evetns', this.state.events);
     return (
       <div className={classes.root}>
         <br/><br/><br/>
@@ -186,42 +231,66 @@ class CreateTransaction extends Component {
           	open={this.state.openEvent}
           	onClose={this.handleCloseEvent}
           	aria-labelledby="responsive-dialog-title"
-            className={classes.eventDialog}
+            className={classes.dialogEventRoot}
         	>
-           <form className={classes.container} noValidate autoComplete="off">
-        
 
+          {/* search box */}
+          <Paper className={classes.searchRoot} elevation={1}>
+            
+            <InputBase className={classes.input} placeholder="Search Event" value={this.state.eventSearchInput} onChange={this.onSearchChange} />
+
+            <IconButton className={classes.iconButton} aria-label="Search">
+              <SearchIcon />
+            </IconButton>
+
+            <Divider className={classes.divider} />
+            
+            <IconButton className={classes.iconButton} aria-label="Directions" onClick={this.resetSearch}>
+              <HighlightOff />
+            </IconButton>
+          </Paper>
+
+
+          {/* dialog form */}
+          {/* <div>
+           <form className={classes.container} noValidate autoComplete="off">
+  
           <TextField
             id="outlined-name"
             label="Search"
             className={classes.textField}
-            value={this.state.title}
+            value={this.state.selectedEvent.name}
             onChange={this.handleChange('title')}
             margin="normal"
             variant="outlined"
           />
           </form>
-          <DialogContent>
-         
-      
-          <div>
-          {this.state.events.map(event=>{
-            return(
-              <div>{event.name}</div>
-            );
-          })}
-          </div>
+          </div> */}
 
-
-      </DialogContent>
-				<DialogActions>
-					<Button onClick={this.handleCloseEvent} color="primary">
-					Cancel
-					</Button>
-					<Button onClick={this.handleSelectEvent} color="primary" autoFocus>
-					Okay
-					</Button>
-				</DialogActions> 
+          
+          <DialogContent className={classes.dialogContent}>
+            <div className={classes.dialogEvents}>
+            {this.state.events.map(event=>{
+              return(
+                <div className={classes.dialogEvent} onClick={()=>{this.handleSelectEvent(event)}}>
+                  <div className={classes.eventName}>       {event.name}
+                  </div>
+                </div>
+              );
+            })}
+            </div>
+          </DialogContent>
+            
+          <DialogActions className={classes.dialogFooter}>
+            <Button onClick={this.handleCloseEvent} color="primary">
+            Cancel
+            </Button>
+     
+              <Button onClick={this.handleSelectEvent} color="primary" autoFocus>
+                Okay
+              </Button> 
+            
+          </DialogActions> 
       	</Dialog>
 
       </div>
@@ -230,6 +299,27 @@ class CreateTransaction extends Component {
 }
 
 const styles = theme => ({
+searchRoot: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: '90%',
+    margin: '10px auto',
+    height: 50,
+    maxHeight: 38
+  },
+  input: {
+    marginLeft: 8,
+    flex: 1,
+  },
+  iconButton: {
+  },
+  divider: {
+    width: 1,
+    height: 28,
+    margin: 4,
+  },
+
   root: {
     background: '#efefef'
   },
@@ -292,8 +382,18 @@ const styles = theme => ({
     fontSize: 16,
     padding: 5
   },
-  eventDialog: {
-   
+  dialogEventRoot: {
+  },
+  dialogContent: {
+  },
+  dialogEvents: {
+  },
+  dialogEvent: {
+    borderBottom: '1px solid #dedede',
+    padding: '15px 2px 8px 2px',
+  },
+  eventName: {
+
   }
 });
 
