@@ -3,7 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
-const userRouter = require('./user/UserRoutes');
+const userRouter = require('./User/UserRoutes');
 const transactionRouter = require('./Transaction/TransactionRoutes');
 const eventRouter = require('./Event/EventRoutes');
 
