@@ -15,7 +15,9 @@ class Home extends React.Component {
 	componentDidMount() {
 		console.log('comp mount');
 		const path = this.props.history.location.pathname;
-		
+		if(!this.props.user._id){
+			this.props.history.push('/login');
+		}
 	}
 
 	render() {

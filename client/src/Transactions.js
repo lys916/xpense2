@@ -21,8 +21,10 @@ function _arrayBufferToBase64( buffer ) {
 
 class Transactions extends Component {
   componentDidMount(){
+    console.log('transactions did mount');
     window.scrollTo(0, 0);
     if(this.props.transactions.length < 1){
+      console.log('getting transactions');
       this.props.getTransactions(this.props.user._id);
     }
   }
