@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const TransactionSchema = new mongoose.Schema({
+	user: {type: ObjectId, ref: 'User'},
 	title: {type: String},
 	amount: {type: String},
 	desc: {type: String},

@@ -21,8 +21,9 @@ function _arrayBufferToBase64( buffer ) {
 
 class Transactions extends Component {
   componentDidMount(){
+    window.scrollTo(0, 0);
     if(this.props.transactions.length < 1){
-      this.props.getTransactions();
+      this.props.getTransactions(this.props.user._id);
     }
   }
   render() {
@@ -40,15 +41,15 @@ class Transactions extends Component {
             return(
                 <Card className={classes.card} onClick={()=>{this.props.history.push(`/transaction/${transaction._id}`)}}>
                 <CardActionArea>
-                  <CardContent>
-                    <div className={classes.createdBy}>Created By: {transaction.createdBy} On: {transaction.createdOn}</div>
-                    <Typography gutterBottom variant="h5" component="h2">
+                  <CardContent className={classes.content}>
+                    
+                    <div className={classes.title}>
                       {transaction.title}
-                    </Typography>
+                    </div>
 
-                    <Typography component="p">
+                    <div className={classes.desc}>
                       {transaction.desc}
-                    </Typography>
+                    </div>
 
                     <div className={classes.imageBox}>
                       {transaction.images.map(image=>{
@@ -58,7 +59,12 @@ class Transactions extends Component {
                       })}
                         
                     </div>
-
+                    <div className={classes.createdOn}>
+                      Event: Event name here
+                    </div>
+                    <div className={classes.createdOn}>
+                      created on: {transaction.createdOn}
+                    </div>
                   </CardContent>
                 </CardActionArea>
               </Card>
@@ -79,10 +85,14 @@ class Transactions extends Component {
 const styles = theme => ({
   root: {
     paddingTop: 70,
-    paddingBottom: 80
+    paddingBottom: 80,
+    background: '#efefef'
   },
   card: {
-    marginBottom: 10
+    margin: 10,
+  },
+  content: {
+    textAlign: 'left'
   },
   fab: {
     margin: theme.spacing.unit,
@@ -96,16 +106,27 @@ const styles = theme => ({
   space: {
     height: 50
   },
-  createdBy: {
+  
+  title: {
+    fontSize: 20,
+    paddingBottom: 10
+  },
+  desc: {
+    paddingBottom: 10
   },
   imageBox: {
     display: 'flex',
     flexWrap: 'wrap'
   },
   img: {
-    height: '20%',
+    width: '20vw',
+    height: '100%',
     marginRight: 10
   },
+  createdOn: {
+    color: 'gray',
+    paddingTop: 10
+  }
 });
 
 const mapStateToProps = (state) => {

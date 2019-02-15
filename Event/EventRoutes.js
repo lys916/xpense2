@@ -13,6 +13,23 @@ eventRouter.get('/', function(req, res){
   });
 });
 
+
+eventRouter.get('/:id', function(req, res){
+  console.log('getting single event');
+	const id = req.params.id;
+  console.log(id);
+	// find posts that owns by the people 'id user' is following...
+	if (id){
+		Event.findById(id).then(event => {
+
+				// console.log('res posts', posts);
+			res.json(event);
+	
+		});
+		
+	}
+});
+
 eventRouter.post('/create', function(req, res){
   console.log(req.body);
     Event.create(req.body).then(saved=>{

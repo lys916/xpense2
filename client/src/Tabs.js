@@ -17,31 +17,51 @@ class IconTabs extends React.Component {
 	};
 
 	componentDidMount(){
-		const path = this.props.history.location.pathname;
-		console.log('did mount path', path);
+		const pathString = this.props.history.location.pathname;
+		const pathArray = pathString.split('/');
+		const path = pathArray[1];
+		const pathId = pathArray[2];
+		console.log('path', path);
+		console.log('pathId', pathId);
+		console.log('path array', pathArray);
 
-		if(path === '/transactions' || path === '/'){
+
+		if(path === 'transactions' || path === ''){
 			this.setState({value: 0});
-			this.props.history.push('/transactions');
+			this.props.history.push('transactions');
+		}
+		if(path === 'create-transaction'){
+			this.setState({value: 0});
+			this.props.history.push('create-transaction');
 		}
 		if(this.props.user.admin){
-			if(path === '/events'){
+			if(path === 'events'){
 				this.setState({value: 1});
-				this.props.history.push('/events');
+				this.props.history.push('events');
 			}
-			if(path === '/volunteers'){
+
+			if(path === 'create-event'){
+				this.setState({value: 1});
+				this.props.history.push('create-event');
+			}
+			if(path === 'event' && pathId){
+				this.setState({value: 1});
+				// this.props.history.push('create-event');
+			}
+
+			if(path === 'volunteers'){
 				this.setState({value: 2});
-				this.props.history.push('/volunteers');
+				this.props.history.push('volunteers');
 			}
-			if(path === '/settings'){
+			if(path === 'settings'){
 				this.setState({value: 3});
-				this.props.history.push('/settings');
+				this.props.history.push('settings');
 			}
 		
 		}else{
-			if(path === '/settings'){
+			if(path === 'settings'){
 				this.setState({value: 1});
-				this.props.history.push('/settings');
+				this.props.history.push('settings');
 			}
 		}
 	}

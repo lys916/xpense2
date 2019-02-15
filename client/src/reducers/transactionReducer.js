@@ -5,8 +5,8 @@ const eventReducer = (state = [], action) => {
 		case 'FETCHED_TRANSACTIONS':
             return action.payload;
 
-		// case 'TRANSACTION_CREATED':
-        //    return [action.payload, ...state];
+		case 'TRANSACTION_CREATED':
+           return [action.payload, ...state];
 
 		case 'TRANSACTION_DELETED':
 			const filterDeleted = state.filter(event=>{
@@ -25,6 +25,10 @@ const eventReducer = (state = [], action) => {
 		// 	console.log(action.payload);
 		// 	localStorage.removeItem('cart');
 		// 	return [];
+
+		case 'LOGGED_OUT':
+		return [];
+
 
 		default:
 			return state;

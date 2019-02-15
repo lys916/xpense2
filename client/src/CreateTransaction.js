@@ -28,15 +28,26 @@ class CreateTransaction extends Component {
     desc: '',
     image: null,
     images: [],
-    open: false
+    open: false,
+    openEvent: false,
+    events: [{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'},{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'},{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'}]
   }
 
    handleClickOpen = () => {
     this.setState({ open: true });
   };
 
+   handleClickOpenEvent = () => {
+    this.setState({ openEvent: true });
+  };
+
+
   handleClose = () => {
     this.setState({ open: false, image: null });
+  };
+
+  handleCloseEvent = () => {
+    this.setState({ openEvent: false });
   };
 
   handleAcceptPhoto = ()=>{
@@ -52,7 +63,7 @@ class CreateTransaction extends Component {
 
   createTransaction = ()=>{
     const {title, amount, desc, images} = this.state;
-    this.props.createTransaction({title, amount, desc, images}, this.props.history);
+    this.props.createTransaction({title, amount, desc, images, user: this.props.user._id}, this.props.history);
   }
 
   onTakePhoto (dataUri) {
@@ -65,12 +76,18 @@ class CreateTransaction extends Component {
     const {classes} = this.props;
     console.log('photo', this.state.image);
     return (
-      <div className="CreateTransaction">
-        <br/><br/><br/><br/>
-        <Button className={classes.button} variant="outlined" color="primary" onClick={this.handleClickOpen}>
-          Take Photo
+      <div className={classes.root}>
+        <br/><br/><br/>
+
+        <div className={classes.info}>What event is this transaction for?*</div>
+        <Button className={classes.button} variant="outlined" color="primary" onClick={this.handleClickOpenEvent}>
+          Select An Event
         </Button>
-        <br/><br/>
+  
+         <div className={classes.info}>Take photo of receipts and other items.</div>
+        <Button className={classes.button} variant="outlined" color="primary" onClick={this.handleClickOpen}>
+          {this.state.images.length > 0 ? 'Take More Photo' : 'Take A Photo' }
+        </Button>
 
         <div className={classes.imageBox}>
           {this.state.images.map(img=>{
@@ -82,7 +99,7 @@ class CreateTransaction extends Component {
         </div>
         
         <form className={classes.container} noValidate autoComplete="off">
-          
+        
           <TextField
             id="outlined-name"
             label="Transaction Title"
@@ -116,14 +133,12 @@ class CreateTransaction extends Component {
           />
           
         </form>
-        <br/>
         
 
         <Button variant="contained" color="primary" className={classes.createButton}onClick={this.createTransaction} >
-          Create Transaction
+          Submit Transaction
         </Button>
-        <br/><br/><br/>
-
+        <br/><br/>
 
         {/* camera */}
 
@@ -163,36 +178,101 @@ class CreateTransaction extends Component {
 					</Button>
 				</DialogActions>}
       	</Dialog>
+
+
+        {/* select event dialog */}
+        	<Dialog
+         	fullScreen={true}
+          	open={this.state.openEvent}
+          	onClose={this.handleCloseEvent}
+          	aria-labelledby="responsive-dialog-title"
+            className={classes.eventDialog}
+        	>
+           <form className={classes.container} noValidate autoComplete="off">
+        
+
+          <TextField
+            id="outlined-name"
+            label="Search"
+            className={classes.textField}
+            value={this.state.title}
+            onChange={this.handleChange('title')}
+            margin="normal"
+            variant="outlined"
+          />
+          </form>
+          <DialogContent>
+         
+      
+          <div>
+          {this.state.events.map(event=>{
+            return(
+              <div>{event.name}</div>
+            );
+          })}
+          </div>
+
+
+      </DialogContent>
+				<DialogActions>
+					<Button onClick={this.handleCloseEvent} color="primary">
+					Cancel
+					</Button>
+					<Button onClick={this.handleSelectEvent} color="primary" autoFocus>
+					Okay
+					</Button>
+				</DialogActions> 
+      	</Dialog>
+
       </div>
     );
   }
 }
 
 const styles = theme => ({
+  root: {
+    background: '#efefef'
+  },
+  info: {
+    fontSize: 12,
+    textAlign: 'left',
+    paddingLeft: 10,
+    paddingTop: 8,
+    color: '#555555',
+    
+  },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: '100%'
+    width: '100%',
+    marginBottom: 0,
+    background: 'white',
   },
+  textFieldSearch: {width: '100%'},
   textArea: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: '100%'
+    width: '100%',
+    background: 'white'
   },
   container: {
     display: 'flex',
     flexWrap: 'wrap',
   },
   button: {
-    width: '95%'
+    width: '95%',
+    background: 'white',
+    border: '1px solid #bbbbbb',
+    textTransform: 'none'
   },
   createButton: {
     marginBottom: 70,
-    width: '95%'
-
+    width: '95%',
+    marginTop: 10
   },
   cameraImg: {
-    width: '45%'
+    width: '45%',
+    marginTop: 10
   },
   img: {
     width: '100%'
@@ -202,11 +282,24 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around'
+  },
+  searchHeader: {
+    background: '#dedede',
+    padding: '10px 0px 10px 10px'
+  },
+  searchInput: {
+    width: '100%',
+    fontSize: 16,
+    padding: 5
+  },
+  eventDialog: {
+   
   }
 });
 
 const mapStateToProps = (state) => {
 	return {
+    user: state.user
   }
 }
 

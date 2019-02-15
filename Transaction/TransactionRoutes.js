@@ -12,7 +12,8 @@ const gridfs = require('mongoose-gridfs');
 
 transactionRouter.get('/', function(req, res){ 
   console.log('server, getting transactions');
-  Transaction.find({}).sort('dateCreated').then(trans=>{
+  const { userId} = req.query;
+  Transaction.find({user: userId}).sort({createdOn: -1}).then(trans=>{
     // console.log('trans from db', trans);
     res.json(trans);
   });
@@ -29,7 +30,7 @@ transactionRouter.get('/', function(req, res){
 // }
 
 transactionRouter.post('/create', function(req, res){
-  const { title, amount, desc, images} =  req.body;
+  // const { title, amount, desc, images} =  req.body;
     Transaction.create(req.body).then(saved=>{
       // console.log('saved', saved);
       // const buffer = saved.images[0].image;

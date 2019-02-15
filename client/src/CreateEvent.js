@@ -29,6 +29,7 @@ class CreateEvent extends Component {
     const {classes} = this.props;
     return (
       <div className="CreateEvent">
+        <br/><br/><br/>
         <form className={classes.container} noValidate autoComplete="off">
           
           <TextField
@@ -75,10 +76,10 @@ class CreateEvent extends Component {
           
         </form>
 
-        <Button variant="contained" color="primary" className={classes.button}onClick={this.createEvent} >
+        <Button variant="contained" color="primary" className={classes.createButton}onClick={this.createEvent} >
           Create Event
         </Button>
-        
+        <br/><br/>
       </div>
     );
   }
@@ -88,19 +89,24 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: '100%'
+    width: '100%',
+    marginBottom: 0,
+    background: 'white'
   },
   textArea: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: '100%'
+    width: '100%',
+    background: 'white'
   },
   container: {
     display: 'flex',
     flexWrap: 'wrap',
   },
-  button: {
-    width: '100%'
+  createButton: {
+    marginBottom: 70,
+    width: '95%',
+    marginTop: 10,
   },
 });
 

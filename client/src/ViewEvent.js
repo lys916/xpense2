@@ -5,18 +5,22 @@ import { deleteEvent } from './actions/eventActions';
 import { withStyles } from '@material-ui/core/styles';
 import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-
-
-// evetns array should be coming from database
-const events = [
-  {name: 'Event 1', desc: 'Event 1 description'},
-  {name: 'Event 2', desc: 'Event 2 description'},
-  {name: 'Event 3', desc: 'Event 3 description'},
-  {name: 'Event 4', desc: 'Event 4 description'},
-  {name: 'Event 5', desc: 'Event 5 description'}
-];
+import axios from 'axios';
 
 class ViewEvent extends Component {
+
+  state = {
+    event: {}
+  }
+
+  componentDidMount(){
+    const { id } = this.props.match.params;
+    // console.log('got id', id);
+    axios.get(`/event/${id}`).then(res => {
+      // console.log('got a event', res.data);
+      this.setState({event: res.data});
+    });
+  }
 
   handleDeleteEvent =(id)=>{
     console.log(id);
@@ -24,47 +28,61 @@ class ViewEvent extends Component {
   }
 
   render() {
-    const pathStr = this.props.location.pathname;
-    const pathArray = pathStr.split('/');
-    const eventIndex = pathArray[2];
+    // const pathStr = this.props.location.pathname;
+    // const pathArray = pathStr.split('/');
+    // const transactionIndex = pathArray[2];
     const {classes} = this.props;
-    const events = this.props.events;
-    console.log('view event render', events);
-    if(events.length < 1){
-      this.props.history.push('/events');
-      return null;
-    }
+    const {event} = this.state;
+    // if(transactions.length < 1){
+    //   this.props.history.push('/transactions');
+    //   return null;
+    // }
 
     return (
-      <div className="CreateTransaction">
+      <div className={classes.root}>
+
         <div className={classes.viewBar}>
           <IconButton
               color="inherit"
               aria-label="Open drawer"
-              onClick={()=>{this.handleDeleteEvent(events[eventIndex]._id)}}
+              onClick={()=>{this.handleDeleteEvent(event._id)}}
               className={classes.menuButton}
             >
               <Delete/>
             </IconButton>
         </div>
+
         <Typography gutterBottom variant="h5" component="h2">
-            {events[eventIndex].name}
+            {event.name}
         </Typography>
 
         <Typography component="p">
-            {events[eventIndex].desc}
+            {event.desc}
         </Typography>
+
       </div>
     );
   }
 }
 
 const styles = theme => ({
+  root: {
+    paddingTop: 70
+  },
   viewBar: {
     background: '#dedede',
     width: '100%',
     display: 'flex',
     justifyContent: 'flex-end'
+  },
+  imageBox: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  img: {
+    width: '40%',
+    height: '100%',
+    marginRight: 10
   }
 });
 

@@ -16,7 +16,6 @@ const userReducer = (state = userInit, action) => {
 	switch (action.type) {
 
 		case 'LOGGED_IN':
-
 		return action.payload
 
         case 'LOGGED_OUT':

@@ -35,11 +35,11 @@ export const deleteTransaction = (id, history) => {
 }
 
 
-export const getTransactions = () => { 
-	console.log('getting transactions');
+export const getTransactions = (userId) => { 
+	console.log('getting transactions', userId);
   	return (dispatch) => {
 		  // dispatch({type: 'GETTING_DAILY_FOODS'});
-		axios.get('/transaction').then(res => {
+		axios.get('/transaction', {params: {userId}}).then(res => {
 			console.log('got events', res.data);
 			dispatch({
 				type: 'FETCHED_TRANSACTIONS',

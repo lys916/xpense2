@@ -19,6 +19,7 @@ class Home extends React.Component {
 	}
 
 	render() {
+		console.log('home props', this.props);
 		const { classes } = this.props;
 		const path = this.props.history.location.pathname;
 		if(!this.props.user._id){
