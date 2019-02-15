@@ -130,7 +130,7 @@ const styles = {
 		flexGrow: 1,
 		position: 'fixed',
 		bottom: 0,
-		zIndex: 1,
+		zIndex: 2,
 		width: '100%',
 		background: 'white'
 	},

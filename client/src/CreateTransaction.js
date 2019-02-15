@@ -27,7 +27,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import HighlightOff from '@material-ui/icons/HighlightOff';
 
-const events = [{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'},{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'},{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'}];
+import { getEvents } from './actions/eventActions';
+
+// const events = [{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'},{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'},{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'}];
 
 class CreateTransaction extends Component {
   state = {
@@ -40,17 +42,25 @@ class CreateTransaction extends Component {
     openEvent: false,
     selectedEvent: null,
     eventSearchInput: '',
-    events: [...events]
+    events: [...this.props.events]
   }
 
-  
+   componentDidMount(){
+    if(this.props.events.length < 1){
+      this.props.getEvents();
+    }
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps){
+    this.setState({events: nextProps.events});
+  }
 
    handleClickOpen = () => {
     this.setState({ open: true });
   };
 
    handleClickOpenEvent = () => {
-    this.setState({ openEvent: true });
+    this.setState({ openEvent: true, events: this.props.events });
   };
 
 
@@ -88,7 +98,7 @@ class CreateTransaction extends Component {
    
     if(e.target.value === ''){
       this.setState({
-        events: events, 
+        events: this.props.events, 
         eventSearchInput: e.target.value
       });
     }else{
@@ -106,7 +116,7 @@ class CreateTransaction extends Component {
   }
 
   filterEvent = (name)=>{
-    const filteredEvents = events.filter(event=>{
+    const filteredEvents = this.props.events.filter(event=>{
       return event.name.includes(name);
     });
     console.log('filtered', filteredEvents);
@@ -114,34 +124,64 @@ class CreateTransaction extends Component {
   }
 
   resetSearch = ()=>{
-    this.setState({eventSearchInput: '', events: events});
+    this.setState({eventSearchInput: '', events: this.props.events});
+  }
+
+  handleRemoveSelection = ()=>{
+    this.setState({
+      eventSearchInput: '',
+      selectedEvent: null
+    });
+    this.handleCloseEvent();
+  }
+
+  removeSelectedEvent = ()=>{
+    this.setState({selectedEvent: null});
   }
 
   render() {
-    const {classes} = this.props;
-    console.log('copied evetns', this.state.events);
+    const {classes, events} = this.props;
+    console.log('select events', events);
     return (
       <div className={classes.root}>
         <br/><br/><br/>
 
         <div className={classes.info}>What event is this transaction for?*</div>
-        <Button className={classes.button} variant="outlined" color="primary" onClick={this.handleClickOpenEvent}>
+        {this.state.selectedEvent ?
+          <div className={classes.selectedEventBox}>
+            <div className={classes.selectedEvent}>         {this.state.selectedEvent.name}
+            </div>
+            <div>
+              {/* <IconButton className={classes.removeEventButton} aria-label="Directions"> */}
+              <HighlightOff className={classes.removeEventButton} onClick={this.removeSelectedEvent}/>
+            {/* </IconButton> */}
+            </div>
+
+            
+
+          </div>
+            : 
+          <Button className={classes.button} variant="outlined" color="primary" onClick={this.handleClickOpenEvent}>
           Select An Event
         </Button>
+        }
+        
   
          <div className={classes.info}>Take photo of receipts and other items.</div>
         <Button className={classes.button} variant="outlined" color="primary" onClick={this.handleClickOpen}>
           {this.state.images.length > 0 ? 'Take More Photo' : 'Take A Photo' }
         </Button>
 
-        <div className={classes.imageBox}>
-          {this.state.images.map(img=>{
-            return(
-              <div className={classes.cameraImg} ><img className={classes.img} src={img} /></div>
-            )
-          })}
-          
-        </div>
+        {this.state.images.length > 0 ? 
+          <div className={classes.imageBox}>
+            {this.state.images.map(img=>{
+              return(
+                <div className={classes.cameraImg} ><img className={classes.img} src={img} /></div>
+              )
+            })}
+          </div> : null
+        }
+        
         
         <form className={classes.container} noValidate autoComplete="off">
         
@@ -282,11 +322,11 @@ class CreateTransaction extends Component {
           </DialogContent>
             
           <DialogActions className={classes.dialogFooter}>
-            <Button onClick={this.handleCloseEvent} color="primary">
+            <Button onClick={this.handleRemoveSelection} color="primary">
             Cancel
             </Button>
      
-              <Button onClick={this.handleSelectEvent} color="primary" autoFocus>
+              <Button onClick={this.handleCloseEvent} color="primary" autoFocus>
                 Okay
               </Button> 
             
@@ -362,7 +402,6 @@ searchRoot: {
   },
   cameraImg: {
     width: '45%',
-    marginTop: 10
   },
   img: {
     width: '100%'
@@ -371,7 +410,11 @@ searchRoot: {
     width: '100%',
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    // border: '1px dashed #bbbbbb',
+    marginTop: 10,
+    // // padding: '5px 0px 2px 0px',
+    // borderRadius: 4
   },
   searchHeader: {
     background: '#dedede',
@@ -394,14 +437,29 @@ searchRoot: {
   },
   eventName: {
 
+  },
+  selectedEvent: {
+    textAlign: 'left',
+  },
+  selectedEventBox: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    border: '1px dashed #bbbbbb',
+    margin: '5px 10px',
+    borderRadius: 4,
+    padding: '15px 10px 10px 10px'
+  },
+  removeEventButton: {
+    color: 'gray'
   }
 });
 
 const mapStateToProps = (state) => {
 	return {
-    user: state.user
+    user: state.user,
+    events: state.events
   }
 }
 
-export default connect(mapStateToProps, {  createTransaction })(withStyles(styles)(CreateTransaction));
+export default connect(mapStateToProps, {  createTransaction, getEvents })(withStyles(styles)(CreateTransaction));
 
