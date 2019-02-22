@@ -84,8 +84,8 @@ class CreateTransaction extends Component {
   };
 
   createTransaction = ()=>{
-    const {title, amount, desc, images} = this.state;
-    this.props.createTransaction({title, amount, desc, images, user: this.props.user._id}, this.props.history);
+    const {title, amount, desc, images, selectedEvent} = this.state;
+    this.props.createTransaction({title, amount, desc, images, user: this.props.user._id, event: selectedEvent._id}, this.props.history);
   }
 
   onTakePhoto (dataUri) {
@@ -244,7 +244,7 @@ class CreateTransaction extends Component {
 						onTakePhoto = { (dataUri) => { this.onTakePhoto(dataUri) } }
 						idealFacingMode = {FACING_MODES.ENVIRONMENT}
 						isImageMirror = {false}
-						idealResolution = {{width: 100, height: 130}}
+						// idealResolution = {{width: 100, height: 130}}
 					/>}
 				</DialogContent>
 
@@ -313,7 +313,7 @@ class CreateTransaction extends Component {
             {this.state.events.map(event=>{
               return(
                 <div className={classes.dialogEvent} onClick={()=>{this.handleSelectEvent(event)}}>
-                  <div className={classes.eventName}>       {event.name}
+                  <div className={classes.eventName}>{event.name}
                   </div>
                 </div>
               );

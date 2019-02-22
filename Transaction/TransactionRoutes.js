@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const transactionRouter = express.Router();
 const Transaction = require('./TransactionModel.js');
+const Event = require('../Event/EventModel.js');
 
 const fs = require('fs');
 const gridfs = require('mongoose-gridfs');
@@ -13,7 +14,11 @@ const gridfs = require('mongoose-gridfs');
 transactionRouter.get('/', function(req, res){ 
   console.log('server, getting transactions');
   const { userId} = req.query;
-  Transaction.find({user: userId}).sort({createdOn: -1}).then(trans=>{
+  Transaction
+    .find({user: userId}).
+    sort({createdOn: -1})
+    .populate('event')
+    .then(trans=>{
     // console.log('trans from db', trans);
     res.json(trans);
   });
@@ -30,8 +35,18 @@ transactionRouter.get('/', function(req, res){
 // }
 
 transactionRouter.post('/create', function(req, res){
+  // save image to aws and save image url to mongo
+
   // const { title, amount, desc, images} =  req.body;
-    Transaction.create(req.body).then(saved=>{
+    Transaction.create(req.body).then(tran=>{
+      Event.findById(tran.event).then(event => {
+        event.transactions.push(tran._id);
+        event.save().then(savedEvent=>{
+          tran.populate('event', function(err) {
+            res.json(tran);
+          });
+        });
+      });
       // console.log('saved', saved);
       // const buffer = saved.images[0].image;
       // console.log('BUFFER', buffer);
@@ -39,7 +54,7 @@ transactionRouter.post('/create', function(req, res){
       // console.log('converted', base64data);
       // const base64 = _arrayBufferToBase64(saved.images.image);
       // console.log('base64 converted', base64);
-      res.send(saved);
+      
     });
 });
 

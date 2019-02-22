@@ -30,7 +30,7 @@ class Transactions extends Component {
   }
   render() {
     const { classes, transactions, user } = this.props;
-    console.log('transaction user', this.props.user);
+    console.log('transactions', transactions);
     if(!this.props.user._id){
       this.props.history.push('/login');
       return null;
@@ -62,7 +62,7 @@ class Transactions extends Component {
                         
                     </div>
                     <div className={classes.createdOn}>
-                      Event: Event name here
+                      Event: {transaction.event.name}
                     </div>
                     <div className={classes.createdOn}>
                       created on: {transaction.createdOn}

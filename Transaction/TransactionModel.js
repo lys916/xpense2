@@ -8,7 +8,8 @@ const TransactionSchema = new mongoose.Schema({
 	desc: {type: String},
 	createdBy: {type: String, default: 'TestUser'},
 	createdOn: {type: Date, default: Date().toString()},
-	images: [{ type: String }]
+	images: [{ type: String }],
+	event: {type: ObjectId, ref: 'Event'}
 });
 
 const TransactionModel = mongoose.model('Transaction', TransactionSchema);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const createTransaction = (transaction, history) => {
-	console.log('creating transaction');
+	console.log('creating transaction', transaction);
 	return (dispatch) => {
 		//   dispatch({
 		// 	  type: 'CREATING_CUSTOM_FOOD'

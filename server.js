@@ -10,12 +10,11 @@ const eventRouter = require('./Event/EventRoutes');
 const server = express();
 
 server.use(cors());   // https://medium.com/trisfera/using-cors-in-express-cac7e29b005b
-server.use(bodyParser.json());
+server.use(bodyParser.json({limit: '50mb'}));
 server.use(bodyParser.urlencoded({
     extended: true,
-    limit: '500mb'
+    limit: '50mb'
 }));
-server.use(bodyParser.json({limit: '5000mb'}));
 
 mongoose
   .connect
