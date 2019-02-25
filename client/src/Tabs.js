@@ -49,9 +49,9 @@ class IconTabs extends React.Component {
 				// this.props.history.push('create-event');
 			}
 
-			if(path === 'volunteers'){
+			if(path === 'users'){
 				this.setState({value: 2});
-				this.props.history.push('volunteers');
+				this.props.history.push('users');
 			}
 			if(path === 'settings'){
 				this.setState({value: 3});
@@ -77,7 +77,7 @@ class IconTabs extends React.Component {
 				history.push('/events');
 			}
 			if (value === 2) {
-				history.push('/volunteers');
+				history.push('/users');
 			}
 			if (value === 3) {
 				history.push('/settings');

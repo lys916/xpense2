@@ -16,6 +16,27 @@ const otherReducer = (state = initOthers, action) => {
 
 		case 'SIGNING_UP':
 			return {...state, isLoading: true, loadingMessage: 'Signing up...'}
+
+			case 'LOADING':
+			return {...state, isLoading: true, loadingMessage: action.payload}
+
+			case 'CREATING_TRANSACTION':
+			return {...state, isLoading: true, loadingMessage: 'Creating transaction...'}
+
+			case 'FETCHED_TRANSACTIONS':
+			return {...state, isLoading: false, loadingMessage: null}
+
+			case 'FETCHED_EVENTS':
+			return {...state, isLoading: false, loadingMessage: null}
+
+			case 'FETCHED_USERS':
+			return {...state, isLoading: false, loadingMessage: null}
+
+			case 'TRANSACTION_CREATED':
+			return {...state, isLoading: false, loadingMessage: null}
+
+			case 'TRANSACTION_DELETED':
+			return {...state, isLoading: false, loadingMessage: null}
 			
 		case 'SIGNED_UP': 
 			return {...state, isLoading: false, loadingMessage: null}

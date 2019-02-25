@@ -50,4 +50,12 @@ userRouter.post('/login', function(req, res){
 	});
 });
 
+userRouter.get('/', function(req, res){
+	console.log('getting users');
+  User.find({}).sort('dateCreated').then(users=>{
+    res.json(users);
+  });
+});
+
+
 module.exports = userRouter;

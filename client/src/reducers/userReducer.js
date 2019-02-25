@@ -1,10 +1,9 @@
-// import { LOGGED_IN, LOGGED_OUT } from '../actions/userActions';
-// initial user state
 let userInit = {
 	// logged_in: false,
 	// userName: '',
 	// userId: '',
 	// goal: {}
+
 }
 // if user exists in local storage, assign username to user initial name
 const user = JSON.parse(localStorage.getItem('user'));

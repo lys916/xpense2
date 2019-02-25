@@ -37,7 +37,7 @@ export const deleteEvent = (id, history) => {
 
 export const getEvents = () => {
   	return (dispatch) => {
-		  // dispatch({type: 'GETTING_DAILY_FOODS'});
+		  dispatch({type: 'LOADING', payload: 'Loading events'});
 		axios.get('/event').then(res => {
 			console.log('got events', res.data);
 			dispatch({

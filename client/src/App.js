@@ -8,6 +8,7 @@ import Home from './Home';
 // import Settings from './Settings';
 import Transactions from './Transactions';
 import Events from './Events';
+import Users from './Users';
 import Login from './Login';
 import Register from './Register';
 import CreateTransaction from './CreateTransaction';
@@ -25,6 +26,7 @@ class App extends Component {
             <Route path='/' component={Home}  />
             <Route path='/transactions' component={Transactions} />
             <Route path='/events' component={Events} />
+            <Route path='/users' component={Users} />
             <Route path='/create-transaction' component={CreateTransaction} />
             <Route path='/create-event' component={CreateEvent} />
             {/* <Route path='/user-list' component={RequireAuth(UserList)} /> */}

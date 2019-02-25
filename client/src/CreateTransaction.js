@@ -29,6 +29,9 @@ import HighlightOff from '@material-ui/icons/HighlightOff';
 
 import { getEvents } from './actions/eventActions';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+
 // const events = [{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'},{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'},{name: 'Event 1'},{name: 'Event 2'},{name: 'Event 3'}];
 
 class CreateTransaction extends Component {
@@ -140,12 +143,12 @@ class CreateTransaction extends Component {
   }
 
   render() {
-    const {classes, events} = this.props;
-    console.log('select events', events);
+    const {classes, events, others} = this.props;
+    console.log(others.isLoading);
     return (
       <div className={classes.root}>
+        
         <br/><br/><br/>
-
         <div className={classes.info}>What event is this transaction for?*</div>
         {this.state.selectedEvent ?
           <div className={classes.selectedEventBox}>
@@ -457,7 +460,8 @@ searchRoot: {
 const mapStateToProps = (state) => {
 	return {
     user: state.user,
-    events: state.events
+    events: state.events,
+    others: state.others
   }
 }
 

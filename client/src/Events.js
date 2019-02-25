@@ -147,7 +147,8 @@ const styles = theme => ({
 const mapStateToProps = (state) => {
 	return {
     events: state.events,
-    user: state.user
+    user: state.user,
+    others: state.others
   }
 }
 

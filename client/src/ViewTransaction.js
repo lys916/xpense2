@@ -7,6 +7,8 @@ import Delete from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import axios from 'axios';
 
+
+
 class ViewTransaction extends Component {
 
   state = {
@@ -26,6 +28,8 @@ class ViewTransaction extends Component {
     console.log(id);
     this.props.deleteTransaction(id, this.props.history);
   }
+
+
 
   render() {
     // const pathStr = this.props.location.pathname;
@@ -68,6 +72,8 @@ class ViewTransaction extends Component {
           })}
             
         </div>
+
+ 
 
       </div>
     );

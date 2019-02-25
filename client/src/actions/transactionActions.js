@@ -3,9 +3,10 @@ import axios from 'axios';
 export const createTransaction = (transaction, history) => {
 	console.log('creating transaction', transaction);
 	return (dispatch) => {
-		//   dispatch({
-		// 	  type: 'CREATING_CUSTOM_FOOD'
-		//   });
+		  dispatch({
+			  type: 'LOADING',
+			  payload: 'Creating transaction'
+		  });
 		axios.post(`/transaction/create`, transaction).then(res => {
 			console.log('created', res.data);
 			dispatch({
@@ -20,9 +21,10 @@ export const createTransaction = (transaction, history) => {
 export const deleteTransaction = (id, history) => {
 	console.log('deleteing transaction', id);
 	return (dispatch) => {
-		//   dispatch({
-		// 	  type: 'CREATING_CUSTOM_FOOD'
-		//   });
+		  dispatch({
+			  type: 'LOADING',
+			  payload: 'Deleting transaction'
+		  });
 		axios.post(`/transaction/delete`, {id}).then(res => {
 			console.log('deleted', res.data);
 			history.push('/transactions');
@@ -38,7 +40,7 @@ export const deleteTransaction = (id, history) => {
 export const getTransactions = (userId) => { 
 	console.log('getting transactions', userId);
   	return (dispatch) => {
-		  // dispatch({type: 'GETTING_DAILY_FOODS'});
+		  dispatch({type: 'LOADING', payload: 'Loading transactions...'});
 		axios.get('/transaction', {params: {userId}}).then(res => {
 			console.log('got events', res.data);
 			dispatch({
