@@ -73,7 +73,7 @@ class Transactions extends Component {
           {this.props.transactions.map((transaction, index)=>{
             return(
                 <Card className={classes.card} >
-                <CardActionArea>
+                {/* <CardActionArea> */}
                   <CardContent className={classes.content} onClick={()=>{this.props.history.push(`/transaction/${transaction._id}`)}}>
                     
                     <div className={classes.title}>
@@ -105,7 +105,7 @@ class Transactions extends Component {
                     
                   </CardContent>
                   
-                </CardActionArea>
+                {/* </CardActionArea> */}
                 <div className={classes.tray}>
                       <IconButton
                         color="default"
