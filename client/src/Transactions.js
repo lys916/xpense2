@@ -60,71 +60,65 @@ class Transactions extends Component {
   };
   render() {
     const { classes, transactions, user, others } = this.props;
-    console.log('transactions', transactions);
     if(!this.props.user._id){
       this.props.history.push('/login');
       return null;
     }
     return (
       <div className={classes.root}>
-      
         {this.props.transactions.length < 1 && !others.isLoading ? <div>There is no transaction</div>: 
         <div>
           {this.props.transactions.map((transaction, index)=>{
             return(
-                <Card className={classes.card} >
-                {/* <CardActionArea> */}
-                  <CardContent className={classes.content} onClick={()=>{this.props.history.push(`/transaction/${transaction._id}`)}}>
-                    
-                    <div className={classes.title}>
-                      {transaction.title}
-                    </div>
+              <Card className={classes.card} >
+                <CardContent className={classes.content} onClick={()=>{this.props.history.push(`/transaction/${transaction._id}`)}}> 
+                  <div className={classes.title}>
+                    {transaction.title}
+                  </div>
 
-                    <div className={classes.imageBox}>
-                      {transaction.images.map(image=>{
-                        return(
-                          <img className={classes.img} src={image} />
-                        )
-                      })}
-                    </div>
+                  <div className={classes.imageBox}>
+                    {transaction.images.map(image=>{
+                      return(
+                        <img className={classes.img} src={image} />
+                      )
+                    })}
+                  </div>
 
-                    <div className={classes.desc}>
-                      {transaction.desc}
-                    </div>
-                    <div className={classes.amount}>
-                      ${transaction.amount}
-                    </div>
-                    <div className={classes.createdOn}>
-                      Created on: {transaction.createdOn}
-                    </div>
+                  <div className={classes.desc}>
+                    {transaction.desc}
+                  </div>
+                  <div className={classes.amount}>
+                    ${transaction.amount}
+                  </div>
+                  <div className={classes.createdOn}>
+                    Created on: {transaction.createdOn}
+                  </div>
                         
-                    <div className={classes.event}>
-                      Event: {transaction.event.name}
-                    </div>
-                    
-                    
-                  </CardContent>
+                  <div className={classes.event}>
+                    Event: {transaction.event.name}
+                  </div> 
+                </CardContent>
                   
                 {/* </CardActionArea> */}
                 <div className={classes.tray}>
-                      <IconButton
-                        color="default"
-                        aria-label="Open drawer"
-                        onClick={()=>{this.handleClickOpen(transaction._id)}}
-                        className={classes.menuButton}
-                      >
-                        <Edit/>
-                      </IconButton>
-                      <IconButton
-                        color="default"
-                        aria-label="Open drawer"
-                        onClick={()=>{this.handleClickOpen(transaction._id)}}
-                        className={classes.menuButton}
-                      >
-                        <Delete/>
-                      </IconButton>
+                  <IconButton
+                    color="default"
+                    aria-label="Open drawer"
+                    onClick={()=>{this.handleClickOpen(transaction._id)}}
+                    className={classes.menuButton}
+                  >
+                    <Edit/>
+                  </IconButton>
+                  <IconButton
+                    color="default"
+                    aria-label="Open drawer"
+                    onClick={()=>{this.handleClickOpen(transaction._id)}}
+                    className={classes.menuButton}
+                  >
+                    <Delete/>
+                  </IconButton>
                         
-                    </div>
+                </div>
               </Card>
             )
           })}
@@ -137,12 +131,12 @@ class Transactions extends Component {
           </Fab>
 
 
-                 <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
+          <Dialog
+            open={this.state.open}
+            onClose={this.handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
           <DialogTitle id="alert-dialog-title">{"Delete this transaction?"}</DialogTitle>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">

@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { createEvent } from './actions/eventActions';
 
-
-
 class CreateEvent extends Component {
   state = {
     name: '',
