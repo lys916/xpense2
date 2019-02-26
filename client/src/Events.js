@@ -20,15 +20,15 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-function _arrayBufferToBase64( buffer ) {
-    var binary = '';
-    var bytes = new Uint8Array( buffer );
-    var len = bytes.byteLength;
-    for (var i = 0; i < len; i++) {
-        binary += String.fromCharCode( bytes[ i ] );
-    }
-    return window.btoa( binary );
-}
+// function _arrayBufferToBase64( buffer ) {
+//     var binary = '';
+//     var bytes = new Uint8Array( buffer );
+//     var len = bytes.byteLength;
+//     for (var i = 0; i < len; i++) {
+//         binary += String.fromCharCode( bytes[ i ] );
+//     }
+//     return window.btoa( binary );
+// }
 
 class Events extends Component {
   state = {
@@ -62,15 +62,17 @@ class Events extends Component {
   addSpentToEvent = (events)=>{
 
     events.forEach(event=>{
-      console.log('each event');
       let spent = 0;
-      event.transactions.forEach(tran=>{
-      console.log('each transaction');
-
-        spent = spent + Number(tran.amount);
+      if(event.transactions.length === 0){
         event.spent = spent;
-        event.remaining = Number(event.budget - spent);
-      });
+        event.remaining = Number(event.budget);
+      }else{
+        event.transactions.forEach(tran=>{
+          spent = spent + Number(tran.amount);
+          event.spent = spent;
+          event.remaining = Number(event.budget - spent);
+        });
+      }
     });
   }
   render() {
@@ -120,7 +122,7 @@ class Events extends Component {
                       Created on: {event.dateCreated}
                     </div>
                     <div className={classes.numTrans}>
-                      # of Transactions: 5
+                      # of Transactions: {event.transactions.length}
                     </div>
                     
                   </CardContent>

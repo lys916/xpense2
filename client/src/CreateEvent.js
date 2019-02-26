@@ -26,14 +26,21 @@ class CreateEvent extends Component {
     }else if(budget === ''){
       this.setState({error: 'budget'});
     }
-    else if(coord === ''){
-      this.setState({error: 'coord'});
-    }
-    else if(desc === ''){
-      this.setState({error: 'desc'});
-    }else{
-      const {name, budget, coord, desc} = this.state;
-      this.props.createEvent({name, budget, coord, desc}, this.props.histor);
+
+    else if(budget !== ''){
+      const isnum = /^\d+$/.test(budget);
+      if(!isnum){
+        this.setState({error: 'budgetNotNumber'});
+      }
+      else if(coord === ''){
+        this.setState({error: 'coord'});
+      }
+      else if(desc === ''){
+        this.setState({error: 'desc'});
+      }else{
+        const {name, budget, coord, desc} = this.state;
+        this.props.createEvent({name, budget, coord, desc}, this.props.history);
+      }
     }
   }
 
@@ -45,7 +52,7 @@ class CreateEvent extends Component {
         <br/><br/><br/>
         <form className={classes.container} noValidate autoComplete="off">
         
-          {error === 'event name' ? <div className={classes.formError}>Event name is required</div>:<div className={classes.formError}></div>}
+          {error === 'event name' ? <div className={classes.formError}>Name is required.</div>:<div className={classes.formError}></div>}
           <TextField
             id="outlined-name"
             label="Event name*"
@@ -56,7 +63,10 @@ class CreateEvent extends Component {
             variant="outlined"
           />
 
-          {error === 'budget' ? <div className={classes.formError}>Event budget is required</div>:<div className={classes.formError}></div>}
+          {error === 'budget' ? <div className={classes.formError}>Budget is required.</div>:<div className={classes.formError}></div>}
+
+          {error === 'budgetNotNumber' ? <div className={classes.formError}>Budget must be a number (0 or more).</div>:<div className={classes.formError}></div>}
+
           <TextField
             id="outlined-name"
             label="Event budget*"
@@ -67,7 +77,7 @@ class CreateEvent extends Component {
             variant="outlined"
           />
 
-          {error === 'coord' ? <div className={classes.formError}>Event coordinator is required</div>:<div className={classes.formError}></div>}
+          {error === 'coord' ? <div className={classes.formError}>Coordinator is required.</div>:<div className={classes.formError}></div>}
           <TextField
             id="outlined-name"
             label="Event coordinator*"
@@ -78,7 +88,7 @@ class CreateEvent extends Component {
             variant="outlined"
           />
 
-          {error === 'desc' ? <div className={classes.formError}>Event description is required</div>:<div className={classes.formError}></div>}
+          {error === 'desc' ? <div className={classes.formError}>Description is required.</div>:<div className={classes.formError}></div>}
           <TextField
             id="outlined-name"
             label="Event description*"

@@ -99,13 +99,17 @@ class CreateTransaction extends Component {
     }else if(amount === ''){
       this.setState({error: 'amount'});
     }
-
-    else if(desc === ''){
-      this.setState({error: 'desc'});
+    else if(amount !== ''){
+      const isnum = /^\d+$/.test(amount);
+      if(!isnum){
+        this.setState({error: 'amountNotNumber'});
+      }else if(desc === ''){
+        this.setState({error: 'desc'});
+      }
     }else{
-
     this.props.createTransaction({title, amount, desc, images, user: this.props.user._id, event: selectedEvent._id}, this.props.history);
     }
+
   }
 
   onTakePhoto (dataUri) {
@@ -162,7 +166,7 @@ class CreateTransaction extends Component {
   render() {
     const { classes, events, others } = this.props;
     const { error } = this.state;
-    console.log(others.isLoading);
+    console.log('error', error);
     return (
       <div className={classes.root}>
         
@@ -212,7 +216,7 @@ class CreateTransaction extends Component {
         
         
         <form className={classes.container} noValidate autoComplete="off">
-          {error === 'title' ? <div className={classes.formError}>Transaction title is required</div>:<div className={classes.formError}></div>}
+          {error === 'title' ? <div className={classes.formError}>Title is required</div>:<div className={classes.formError}></div>}
           <TextField
             id="outlined-name"
             label="Transaction title*"
@@ -223,7 +227,13 @@ class CreateTransaction extends Component {
             variant="outlined"
           />
 
-          {error === 'amount' ? <div className={classes.formError}>Transaction amount is required</div>:<div className={classes.formError}></div>}
+          {/* amount error checking */}
+          {/* if amount field is empty */}
+          {error === 'amount' ? <div className={classes.formError}>Amount is required</div>:<div className={classes.formError}></div>}
+
+          {/* if amount is not a number */}
+          {error === 'amountNotNumber' ? <div className={classes.formError}>Amount must a number (0 or more)</div>:<div className={classes.formError}></div>}
+
           <TextField
             id="outlined-name"
             label="Transaction amount*"
@@ -234,7 +244,7 @@ class CreateTransaction extends Component {
             variant="outlined"
           />
 
-          {error === 'desc' ? <div className={classes.formError}>Transaction description is required</div>:<div className={classes.formError}></div>}
+          {error === 'desc' ? <div className={classes.formError}>Description is required</div>:<div className={classes.formError}></div>}
           <TextField
             id="outlined-name"
             label="Transaction description*"

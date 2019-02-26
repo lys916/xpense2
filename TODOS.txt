@@ -1,6 +1,7 @@
 xpense TODO:
 
 populate event.transactions array
+DONE
 
 when delete transaction, make sure to delete the transaction id from event.transactions array.
 

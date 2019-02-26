@@ -64,7 +64,16 @@ transactionRouter.post('/delete', function(req, res){
     console.log('id', id);
 	Transaction.findOneAndRemove({_id: id}).then(deleted => {
     // console.log('deleted', deleted);
-		res.json(deleted);
+    Event.findById(deleted.event).then(event =>{
+      console.log('event trans', event.transactions);
+      console.log('before len', event.transactions.length);
+      event.transactions.splice(event.transactions.indexOf(deleted._id), 1);
+      console.log('after len', event.transactions.length);
+      event.save().then(savedUpdatedEvent => {
+        res.json(deleted);
+      });
+    });
+		
 	});
 });
 
