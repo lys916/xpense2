@@ -8,6 +8,17 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography'
 import { getEvents } from './actions/eventActions';
 import { connect } from 'react-redux';
+import Delete from '@material-ui/icons/Delete';
+import Edit from '@material-ui/icons/Edit';
+import IconButton from '@material-ui/core/IconButton';
+import { deleteEvent } from './actions/eventActions';
+
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 function _arrayBufferToBase64( buffer ) {
     var binary = '';
@@ -20,12 +31,28 @@ function _arrayBufferToBase64( buffer ) {
 }
 
 class Events extends Component {
+  state = {
+    open: false,
+    id: null
+  }
   componentDidMount(){
     window.scrollTo(0, 0);
     if(this.props.events.length < 1){
       this.props.getEvents();
     }
   }
+  handleClickOpen = (id) => {
+    this.setState({ open: true, id });
+  };
+
+  handleDelete = () => {
+    this.props.deleteEvent(this.state.id, this.props.history);
+    this.handleClose();
+  }
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
   render() {
     const { classes, events, user } = this.props;
     console.log('props', this.props);
@@ -39,9 +66,8 @@ class Events extends Component {
         <div>
           {this.props.events.map((event, index)=>{
             return(
-                <Card className={classes.card} onClick={()=>{this.props.history.push(`/event/${event._id}`)}}>
-                <CardActionArea>
-                  <CardContent className={classes.content}>
+                <Card className={classes.card} >
+                  <CardContent className={classes.content} onClick={()=>{this.props.history.push(`/event/${event._id}`)}}>
                     
                     <div className={classes.title}>
                       {event.name}
@@ -51,15 +77,13 @@ class Events extends Component {
                       {event.desc}
                     </div>
 
-                    <div className={classes.desc}>
-                      Total budget: ${event.budget}
+                    <div className={classes.budgetBox}>
+                      <div className={classes.budgetItem}>Budget<br/>${event.budget}</div>
+                      <div className={classes.budgetItem}>Spent<br/>$100</div>
+                      <div className={classes.budgetItem}>Remaining<br/>$400</div>
                     </div>
 
-                    <div className={classes.desc}>
-                      Remaining budget: ${event.budget - 230}
-                    </div>
-
-                    <div className={classes.desc}>
+                    <div className={classes.coord}>
                       Coordinators: {event.coord}
                     </div>
 
@@ -72,16 +96,25 @@ class Events extends Component {
                         
                     </div> */}
                     <div className={classes.createdOn}>
-                      Transactions: 5
+                      Created on: {event.dateCreated}
                     </div>
-                    <div className={classes.createdOn}>
-                      Transactions amount: $230
+                    <div className={classes.numTrans}>
+                      # of Transactions: 5
                     </div>
-                    <div className={classes.createdOn}>
-                      created on: {event.dateCreated}
-                    </div>
+                    
                   </CardContent>
-                </CardActionArea>
+
+                  {/* <div className={classes.tray}>
+                    <IconButton
+                      color="default"
+                      aria-label="Open drawer"
+                      onClick={()=>{this.handleClickOpen(event._id)}}
+                      className={classes.menuButton}
+                    >
+                    <Delete/>
+                    </IconButton>                      
+                  </div> */}
+
               </Card>
             )
           })}
@@ -92,6 +125,29 @@ class Events extends Component {
           <Fab color="primary" aria-label="Add" className={classes.fab} onClick={()=>{this.props.history.push('/create-event')}}>
             <AddIcon />
           </Fab>
+
+
+          {/* DIALOG WHEN DELTE */}
+          <Dialog
+            open={this.state.open}
+            onClose={this.handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Delete this event?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={this.handleDelete} color="primary" autoFocus>
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }
@@ -104,7 +160,7 @@ const styles = theme => ({
     background: '#efefef'
   },
   card: {
-    margin: 10,
+    margin: '20px 10px',
   },
   content: {
     textAlign: 'left'
@@ -127,20 +183,43 @@ const styles = theme => ({
     paddingBottom: 10
   },
   desc: {
-    paddingBottom: 10
+    paddingBottom: 10,
+    borderBottom: '1px solid #efefef'
   },
-  imageBox: {
+  budgetBox: {
     display: 'flex',
-    flexWrap: 'wrap'
+    justifyContent: 'space-between',
+    paddingTop: 10,
+    borderBottom: '1px solid #efefef',
+    paddingBottom: 10,
+
   },
-  img: {
-    width: '20vw',
-    height: '100%',
-    marginRight: 10
+  budgetItem: {
+    width: '100%',
+    textAlign: 'center'
+  },
+  coord: {
+    paddingTop: 10,
+    borderBottom: '1px solid #efefef',
+    paddingBottom: 10,
+    fontSize: 14
   },
   createdOn: {
     color: 'gray',
-    paddingTop: 10
+    paddingTop: 10,
+    fontSize: 13
+  },
+  numTrans: {
+    fontSize: 13,
+    color: 'gray',
+
+  },
+  tray: {
+    borderTop: '1px solid #efefef',
+    width: '100%',
+    borderRadius: 3,
+    display: 'flex',
+    justifyContent: 'flex-end'
   }
 });
 
@@ -152,5 +231,5 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {  getEvents })(withStyles(styles)(Events));
+export default connect(mapStateToProps, {  getEvents, deleteEvent})(withStyles(styles)(Events));
 

@@ -17,14 +17,14 @@ export const createEvent = (event, history) => {
 	}
 }
 
+
 export const deleteEvent = (id, history) => {
-	console.log('deleteing event', id);
 	return (dispatch) => {
-		//   dispatch({
-		// 	  type: 'CREATING_CUSTOM_FOOD'
-		//   });
+		  dispatch({
+			  type: 'LOADING',
+			  payload: 'Deleting event'
+		  });
 		axios.post(`/event/delete`, {id}).then(res => {
-			console.log('deleted', res.data);
 			history.push('/events');
 			dispatch({
 				type: 'EVENT_DELETED',

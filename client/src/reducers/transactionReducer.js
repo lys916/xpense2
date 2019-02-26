@@ -9,8 +9,8 @@ const eventReducer = (state = [], action) => {
            return [action.payload, ...state];
 
 		case 'TRANSACTION_DELETED':
-			const filterDeleted = state.filter(event=>{
-				return event._id !== action.payload._id;
+			const filterDeleted = state.filter(tran=>{
+				return tran._id !== action.payload._id;
 			});
            return filterDeleted;
 			

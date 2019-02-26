@@ -37,6 +37,9 @@ const otherReducer = (state = initOthers, action) => {
 
 			case 'TRANSACTION_DELETED':
 			return {...state, isLoading: false, loadingMessage: null}
+
+			case 'EVENT_DELETED':
+			return {...state, isLoading: false, loadingMessage: null}
 			
 		case 'SIGNED_UP': 
 			return {...state, isLoading: false, loadingMessage: null}

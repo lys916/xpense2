@@ -107,14 +107,6 @@ class Transactions extends Component {
                     onClick={()=>{this.handleClickOpen(transaction._id)}}
                     className={classes.menuButton}
                   >
-                    <Edit/>
-                  </IconButton>
-                  <IconButton
-                    color="default"
-                    aria-label="Open drawer"
-                    onClick={()=>{this.handleClickOpen(transaction._id)}}
-                    className={classes.menuButton}
-                  >
                     <Delete/>
                   </IconButton>
                         

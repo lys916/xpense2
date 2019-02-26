@@ -34,20 +34,24 @@ class IconTabs extends React.Component {
 			this.setState({value: 0});
 			this.props.history.push('create-transaction');
 		}
-		if(this.props.user.admin){
-			if(path === 'events'){
+		if(path === 'events'){
 				this.setState({value: 1});
 				this.props.history.push('events');
-			}
-
-			if(path === 'create-event'){
+		
+		}
+		if(path === 'create-event'){
 				this.setState({value: 1});
 				this.props.history.push('create-event');
-			}
-			if(path === 'event' && pathId){
+		}
+		if(path === 'event' && pathId){
 				this.setState({value: 1});
 				// this.props.history.push('create-event');
 			}
+
+		if(this.props.user.admin){
+			
+			
+			
 
 			if(path === 'users'){
 				this.setState({value: 2});
@@ -60,7 +64,7 @@ class IconTabs extends React.Component {
 		
 		}else{
 			if(path === 'settings'){
-				this.setState({value: 1});
+				this.setState({value: 2});
 				this.props.history.push('settings');
 			}
 		}
@@ -88,6 +92,9 @@ class IconTabs extends React.Component {
 			history.push('/transactions');
 			}
 			if (value === 1) {
+			history.push('/events');
+			}
+			if (value === 2) {
 				history.push('/settings');
 			}
 			this.setState({ value });
@@ -110,7 +117,7 @@ class IconTabs extends React.Component {
 				>
 					<Tab className={classes.tab} icon={<PhoneIcon />} label="Transactions" />
 
-					{user.admin ? <Tab className={classes.tab} icon={<Event />} label="Events" /> : null}
+					<Tab className={classes.tab} icon={<Event />} label="Events" />
 
 					{user.admin ? <Tab className={classes.tab} icon={<FavoriteIcon />} label="Users" /> : null}
 
