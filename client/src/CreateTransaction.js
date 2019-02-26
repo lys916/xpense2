@@ -5,7 +5,9 @@ import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { createTransaction } from './actions/transactionActions';
-
+import PhotoCam from '@material-ui/icons/PhotoCamera';
+import Icon from '@material-ui/core/Icon';
+import Event from '@material-ui/icons/Event';
 
 import PropTypes from 'prop-types';
 import Dialog from '@material-ui/core/Dialog';
@@ -45,7 +47,8 @@ class CreateTransaction extends Component {
     openEvent: false,
     selectedEvent: null,
     eventSearchInput: '',
-    events: [...this.props.events]
+    events: [...this.props.events],
+    error: null
   }
 
    componentDidMount(){
@@ -83,12 +86,26 @@ class CreateTransaction extends Component {
   }
 
   handleChange = name => event => {
-    this.setState({[name]: event.target.value });
+    this.setState({[name]: event.target.value, error: '' });
   };
 
   createTransaction = ()=>{
     const {title, amount, desc, images, selectedEvent} = this.state;
+    if(!selectedEvent){
+      this.setState({error: 'event'});
+    }
+    else if(title === ''){
+      this.setState({error: 'title'});
+    }else if(amount === ''){
+      this.setState({error: 'amount'});
+    }
+
+    else if(desc === ''){
+      this.setState({error: 'desc'});
+    }else{
+
     this.props.createTransaction({title, amount, desc, images, user: this.props.user._id, event: selectedEvent._id}, this.props.history);
+    }
   }
 
   onTakePhoto (dataUri) {
@@ -143,12 +160,14 @@ class CreateTransaction extends Component {
   }
 
   render() {
-    const {classes, events, others} = this.props;
+    const { classes, events, others } = this.props;
+    const { error } = this.state;
     console.log(others.isLoading);
     return (
       <div className={classes.root}>
         
         <br/><br/><br/>
+        {error === 'event' ? <div className={classes.formError}>Event is required</div>:<div className={classes.formError}></div>}
         <div className={classes.info}>What event is this transaction for?*</div>
         {this.state.selectedEvent ?
           <div className={classes.selectedEventBox}>
@@ -165,14 +184,20 @@ class CreateTransaction extends Component {
           </div>
             : 
           <Button className={classes.button} variant="outlined" color="primary" onClick={this.handleClickOpenEvent}>
-          Select An Event
+          Select An Event &nbsp;
+
+          <Event/>
+
         </Button>
         }
         
   
          <div className={classes.info}>Take photo of receipts and other items.</div>
         <Button className={classes.button} variant="outlined" color="primary" onClick={this.handleClickOpen}>
-          {this.state.images.length > 0 ? 'Take More Photo' : 'Take A Photo' }
+          {this.state.images.length > 0 ? 'Take More Photo' : 'Take A Photo' } &nbsp;
+          
+          <PhotoCam/>
+ 
         </Button>
 
         {this.state.images.length > 0 ? 
@@ -187,10 +212,10 @@ class CreateTransaction extends Component {
         
         
         <form className={classes.container} noValidate autoComplete="off">
-        
+          {error === 'title' ? <div className={classes.formError}>Transaction title is required</div>:<div className={classes.formError}></div>}
           <TextField
             id="outlined-name"
-            label="Transaction Title"
+            label="Transaction title*"
             className={classes.textField}
             value={this.state.title}
             onChange={this.handleChange('title')}
@@ -198,9 +223,10 @@ class CreateTransaction extends Component {
             variant="outlined"
           />
 
+          {error === 'amount' ? <div className={classes.formError}>Transaction amount is required</div>:<div className={classes.formError}></div>}
           <TextField
             id="outlined-name"
-            label="Transaction Amount"
+            label="Transaction amount*"
             className={classes.textField}
             value={this.state.amount}
             onChange={this.handleChange('amount')}
@@ -208,9 +234,10 @@ class CreateTransaction extends Component {
             variant="outlined"
           />
 
+          {error === 'desc' ? <div className={classes.formError}>Transaction description is required</div>:<div className={classes.formError}></div>}
           <TextField
             id="outlined-name"
-            label="Transaction Description"
+            label="Transaction description*"
             className={classes.textArea}
             value={this.state.desc}
             onChange={this.handleChange('desc')}
@@ -378,7 +405,7 @@ searchRoot: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: '100%',
-    marginBottom: 0,
+    // marginBottom: 0,
     background: 'white',
   },
   textFieldSearch: {width: '100%'},
@@ -393,10 +420,12 @@ searchRoot: {
     flexWrap: 'wrap',
   },
   button: {
-    width: '95%',
+    width: '97%',
     background: 'white',
     border: '1px solid #bbbbbb',
-    textTransform: 'none'
+    textTransform: 'none',
+    marginBottom: 7,
+    height: 45
   },
   createButton: {
     marginBottom: 70,
@@ -454,6 +483,13 @@ searchRoot: {
   },
   removeEventButton: {
     color: 'gray'
+  },
+  formError: {
+    color: 'red',
+    marginLeft: 10,
+    fontSize: 12,
+    height: 1,
+    textAlign: 'left'
   }
 });
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@material-ui/icons/Queue';
 import { withStyles } from '@material-ui/core/styles';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Card from '@material-ui/core/Card';
@@ -8,8 +8,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography'
 import { getEvents } from './actions/eventActions';
 import { connect } from 'react-redux';
-import Delete from '@material-ui/icons/Delete';
-import Edit from '@material-ui/icons/Edit';
+import AddTran from '@material-ui/icons/PlaylistAdd';
+import DeleteTran from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import { deleteEvent } from './actions/eventActions';
 
@@ -33,7 +33,7 @@ function _arrayBufferToBase64( buffer ) {
 class Events extends Component {
   state = {
     open: false,
-    id: null
+    event: null
   }
   componentDidMount(){
     window.scrollTo(0, 0);
@@ -41,8 +41,13 @@ class Events extends Component {
       this.props.getEvents();
     }
   }
-  handleClickOpen = (id) => {
-    this.setState({ open: true, id });
+  handleClickOpen = (event) => {
+    if(event.transactions.length > 0){
+      alert('This event cannot be deleted');
+    }else{
+      this.setState({ open: true, event });
+    }
+    
   };
 
   handleDelete = () => {
@@ -104,16 +109,26 @@ class Events extends Component {
                     
                   </CardContent>
 
-                  {/* <div className={classes.tray}>
+                  <div className={classes.tray}>
+                  
                     <IconButton
                       color="default"
                       aria-label="Open drawer"
-                      onClick={()=>{this.handleClickOpen(event._id)}}
+                      onClick={()=>{}}
                       className={classes.menuButton}
                     >
-                    <Delete/>
-                    </IconButton>                      
-                  </div> */}
+                    <AddTran/>
+                    </IconButton>  
+
+                    <IconButton
+                      color="default"
+                      aria-label="Open drawer"
+                      onClick={()=>{this.handleClickOpen(event)}}
+                      className={classes.menuButton}
+                    >
+                    <DeleteTran/>
+                    </IconButton>                     
+                  </div>
 
               </Card>
             )
@@ -157,7 +172,7 @@ const styles = theme => ({
   root: {
     paddingTop: 70,
     paddingBottom: 80,
-    background: '#efefef'
+    background: '#f7f7f7'
   },
   card: {
     margin: '20px 10px',

@@ -11,28 +11,44 @@ class CreateEvent extends Component {
     name: '',
     budget: '',
     coord: '',
-    desc: ''
+    desc: '',
+    error: null
   }
 
   handleChange = name => event => {
-    this.setState({[name]: event.target.value });
+    this.setState({[name]: event.target.value, error: '' });
   };
 
   createEvent = ()=>{
-    const {name, budget, coord, desc} = this.state;
-    this.props.createEvent({name, budget, coord, desc}, this.props.history);
+    const { name, budget, coord, desc } = this.state;
+    if(name === ''){
+      this.setState({error: 'event name'});
+    }else if(budget === ''){
+      this.setState({error: 'budget'});
+    }
+    else if(coord === ''){
+      this.setState({error: 'coord'});
+    }
+    else if(desc === ''){
+      this.setState({error: 'desc'});
+    }else{
+      const {name, budget, coord, desc} = this.state;
+      this.props.createEvent({name, budget, coord, desc}, this.props.histor);
+    }
   }
 
   render() {
     const {classes} = this.props;
+    const {error} = this.state;
     return (
       <div className="CreateEvent">
         <br/><br/><br/>
         <form className={classes.container} noValidate autoComplete="off">
-          
+        
+          {error === 'event name' ? <div className={classes.formError}>Event name is required</div>:<div className={classes.formError}></div>}
           <TextField
             id="outlined-name"
-            label="Event Name"
+            label="Event name*"
             className={classes.textField}
             value={this.state.name}
             onChange={this.handleChange('name')}
@@ -40,9 +56,10 @@ class CreateEvent extends Component {
             variant="outlined"
           />
 
+          {error === 'budget' ? <div className={classes.formError}>Event budget is required</div>:<div className={classes.formError}></div>}
           <TextField
             id="outlined-name"
-            label="Event Budget"
+            label="Event budget*"
             className={classes.textField}
             value={this.state.budget}
             onChange={this.handleChange('budget')}
@@ -50,9 +67,10 @@ class CreateEvent extends Component {
             variant="outlined"
           />
 
+          {error === 'coord' ? <div className={classes.formError}>Event coordinator is required</div>:<div className={classes.formError}></div>}
           <TextField
             id="outlined-name"
-            label="Event Coordinator"
+            label="Event coordinator*"
             className={classes.textField}
             value={this.state.coord}
             onChange={this.handleChange('coord')}
@@ -60,9 +78,10 @@ class CreateEvent extends Component {
             variant="outlined"
           />
 
+          {error === 'desc' ? <div className={classes.formError}>Event description is required</div>:<div className={classes.formError}></div>}
           <TextField
             id="outlined-name"
-            label="Event Description"
+            label="Event description*"
             className={classes.textArea}
             value={this.state.desc}
             onChange={this.handleChange('desc')}
@@ -88,7 +107,7 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: '100%',
-    marginBottom: 0,
+    // marginBottom: 0,
     background: 'white'
   },
   textArea: {
@@ -106,6 +125,12 @@ const styles = theme => ({
     width: '95%',
     marginTop: 10,
   },
+  formError: {
+    color: 'red',
+    marginLeft: 10,
+    fontSize: 12,
+    height: 1,
+  }
 });
 
 const mapStateToProps = (state) => {

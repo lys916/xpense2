@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@material-ui/icons/PlaylistAdd';
 import { withStyles } from '@material-ui/core/styles';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Card from '@material-ui/core/Card';
