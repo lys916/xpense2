@@ -8,7 +8,7 @@ const Event = require('./EventModel.js');
 // const CustomFood = require('./CustomFoodModel');
 
 eventRouter.get('/', function(req, res){
-  Event.find({}).sort('dateCreated').then(events=>{
+  Event.find({}).sort('dateCreated').populate('transactions').then(events=>{
     res.json(events);
   });
 });

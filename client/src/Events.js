@@ -58,9 +58,25 @@ class Events extends Component {
   handleClose = () => {
     this.setState({ open: false });
   };
+
+  addSpentToEvent = (events)=>{
+
+    events.forEach(event=>{
+      console.log('each event');
+      let spent = 0;
+      event.transactions.forEach(tran=>{
+      console.log('each transaction');
+
+        spent = spent + Number(tran.amount);
+        event.spent = spent;
+        event.remaining = Number(event.budget - spent);
+      });
+    });
+  }
   render() {
     const { classes, events, user } = this.props;
-    console.log('props', this.props);
+    this.addSpentToEvent(events);
+
     if(!this.props.user._id){
       this.props.history.push('/login');
       return null;
@@ -84,8 +100,8 @@ class Events extends Component {
 
                     <div className={classes.budgetBox}>
                       <div className={classes.budgetItem}>Budget<br/>${event.budget}</div>
-                      <div className={classes.budgetItem}>Spent<br/>$100</div>
-                      <div className={classes.budgetItem}>Remaining<br/>$400</div>
+                      <div className={classes.budgetItem}>Spent<br/>${event.spent}</div>
+                      <div className={classes.budgetItem}>Remaining<br/>${event.remaining}</div>
                     </div>
 
                     <div className={classes.coord}>
