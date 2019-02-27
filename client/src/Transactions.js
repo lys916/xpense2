@@ -137,7 +137,7 @@ const styles = theme => ({
   root: {
     paddingTop: 70,
     paddingBottom: 80,
-    background: '#f7f7f7'
+    background: '#dedede'
   },
   card: {
     margin: '15px 10px',
