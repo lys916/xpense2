@@ -118,7 +118,11 @@ class Transactions extends Component {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-          <DialogTitle id="alert-dialog-title">{"Delete this transaction?"}</DialogTitle>
+         <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Delete this transaction?
+            </DialogContentText>
+          </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
               Cancel

@@ -105,9 +105,9 @@ class CreateTransaction extends Component {
         this.setState({error: 'amountNotNumber'});
       }else if(desc === ''){
         this.setState({error: 'desc'});
+      }else{
+        this.props.createTransaction({title, amount, desc, images, user: this.props.user._id, event: selectedEvent._id}, this.props.history);
       }
-    }else{
-    this.props.createTransaction({title, amount, desc, images, user: this.props.user._id, event: selectedEvent._id}, this.props.history);
     }
 
   }
